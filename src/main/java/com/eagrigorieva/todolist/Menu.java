@@ -2,8 +2,9 @@ package com.eagrigorieva.todolist;
 
 import com.eagrigorieva.enums.Command;
 import com.eagrigorieva.enums.PrintMod;
+import lombok.SneakyThrows;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
 
 import static com.eagrigorieva.enums.Command.*;
 import static com.eagrigorieva.enums.PrintMod.*;
@@ -11,9 +12,9 @@ import static com.eagrigorieva.todolist.Task.*;
 
 public class Menu {
 
-    private final Scanner scanner;
+    private final BufferedReader scanner;
 
-    public Menu(Scanner scanner) {
+    public Menu(BufferedReader scanner) {
         this.scanner = scanner;
     }
 
@@ -24,19 +25,20 @@ public class Menu {
     }
 
 
+    @SneakyThrows
     public void run(Task task) {
 
-        Command command = null;
+        Command command;
 
         if (this.scanner != null) {
             do {
                 startMenu();
-                String inputCommand = scanner.nextLine();
+                String inputCommand = scanner.readLine();
 
                 //первая часть строки до пробела
-                String commandStr = inputCommand.replaceAll("\\s.*", "");
+                String commandStr = inputCommand.trim().replaceAll("\\s.*", "");
                 //вторая часть строки до пробела
-                String argsStr = inputCommand.replaceAll("^\\S+\\s+(.+)$", "$1");
+                String argsStr = inputCommand.trim().replaceAll("^\\S+\\s+(.+)$", "$1");
                 if (commandStr.equals(argsStr)) argsStr = "default";
 
                 command = validateCommand(task, commandStr);
@@ -68,33 +70,33 @@ public class Menu {
 
     public PrintMod validatePrintMod(String modStr) {
         if (modStr.equals("default")) {
-            return CREATED_TASKS;
+            return CREATED;
         }
 
-        if (modStr.equalsIgnoreCase("created")) {
-            return CREATED_TASKS;
-        } else if (modStr.equalsIgnoreCase("all")) {
-            return ALL_TASKS;
-        } else if (modStr.equalsIgnoreCase("completed")) {
-            return COMPLETED_TASKS;
+        if (modStr.equalsIgnoreCase(CREATED.toLowerCase())) {
+            return CREATED;
+        } else if (modStr.equalsIgnoreCase(ALL.toLowerCase())) {
+            return ALL;
+        } else if (modStr.equalsIgnoreCase(COMPLETED.toLowerCase())) {
+            return COMPLETED;
         } else {
             System.out.println(INCORRECT_AGS);
-            return ALL_TASKS;
+            return ALL;
         }
 
     }
 
     public Command validateCommand(Task task, String commandStr) {
 
-        if (commandStr.equalsIgnoreCase("print")) {
+        if (commandStr.equalsIgnoreCase(PRINT.toLowerCase())) {
             validateTask(task);
             return PRINT;
-        } else if (commandStr.equalsIgnoreCase("create")) {
+        } else if (commandStr.equalsIgnoreCase(CREATE.toLowerCase())) {
             return CREATE;
-        } else if (commandStr.equalsIgnoreCase("toggle")) {
+        } else if (commandStr.equalsIgnoreCase(TOGGLE.toLowerCase())) {
             validateTask(task);
             return TOGGLE;
-        } else if (commandStr.equalsIgnoreCase("quit")) {
+        } else if (commandStr.equalsIgnoreCase(QUIT.toLowerCase())) {
             return QUIT;
         } else {
             return INCORRECT;

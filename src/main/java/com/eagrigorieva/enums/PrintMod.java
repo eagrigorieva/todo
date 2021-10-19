@@ -1,7 +1,14 @@
 package com.eagrigorieva.enums;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public enum PrintMod {
-    ALL_TASKS,
-    CREATED_TASKS,
-    COMPLETED_TASKS
+    ALL,
+    CREATED,
+    COMPLETED;
+
+    public String toLowerCase(){
+        return name().toLowerCase();
+    }
 }

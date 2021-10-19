@@ -3,8 +3,9 @@ package com.eagrigorieva.todolist;
 import com.eagrigorieva.enums.PrintMod;
 import com.eagrigorieva.enums.TaskStatus;
 import lombok.Data;
+import lombok.SneakyThrows;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
 
 import static com.eagrigorieva.enums.TaskStatus.COMPLETED;
 import static com.eagrigorieva.enums.TaskStatus.CREATED;
@@ -38,17 +39,17 @@ public class Task {
         int count = 0;
 
         switch (modCommand) {
-            case ALL_TASKS:
+            case ALL:
                 System.out.printf("%d. [%s] %s\n", count, task.taskStatus == CREATED ? "" : "x", task.description);
                 break;
-            case CREATED_TASKS:
+            case CREATED:
                 if (task.taskStatus == COMPLETED) {
                     System.out.println(PRINT_ALL_TASKS_COMPLETED);
                 } else if (task.taskStatus == CREATED) {
                     System.out.printf("%d. [] %s\n", count, task.description);
                 }
                 break;
-            case COMPLETED_TASKS:
+            case COMPLETED:
                 if (task.taskStatus == CREATED) {
                     System.out.println(PRINT_NO_ONE_TASKS_COMPLETED);
                 } else if (task.taskStatus == COMPLETED) {
@@ -63,7 +64,8 @@ public class Task {
         System.out.println("Status changed: " + task.taskStatus.name() + "\n");
     }
 
-    public static void quit(Scanner scanner) {
+    @SneakyThrows
+    public static void quit(BufferedReader scanner) {
         System.out.println("Exit from the program, bye-bye task :(\n");
         scanner.close();
         System.exit(0);
