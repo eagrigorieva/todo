@@ -5,6 +5,10 @@ import com.eagrigorieva.enums.PrintMod;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.eagrigorieva.enums.Command.*;
 import static com.eagrigorieva.enums.PrintMod.*;
@@ -14,21 +18,22 @@ public class Menu {
 
     private final BufferedReader scanner;
 
+
     public Menu(BufferedReader scanner) {
         this.scanner = scanner;
     }
 
     public void startMenu() {
         System.out.println("-----------------------------");
-        System.out.println("Choose command:\n create \n print \n toggle \n quit ");
+        System.out.println("Choose command:\n add \n print \n toggle \n edit \n search \n delete \n quit ");
         System.out.println("-----------------------------\n");
     }
 
-
     @SneakyThrows
-    public void run(Task task) {
+    public void run() {
 
         Command command;
+        List<Task> taskList = new ArrayList<>();
 
         if (this.scanner != null) {
             do {
@@ -41,19 +46,31 @@ public class Menu {
                 String argsStr = inputCommand.trim().replaceAll("^\\S+\\s+(.+)$", "$1");
                 if (commandStr.equals(argsStr)) argsStr = "default";
 
-                command = validateCommand(task, commandStr);
+                command = validateCommand(taskList, commandStr);
 
                 switch (command) {
-                    case CREATE:
-                        task = createTask(argsStr);
+                    case ADD:
+                        createTask(taskList, argsStr);
                         break;
 
                     case PRINT:
-                        printTask(validatePrintMod(argsStr), task);
+                        printTask(validatePrintMod(argsStr), taskList);
                         break;
 
                     case TOGGLE:
-                        toggle(task);
+                        toggle(validateId(argsStr, taskList), taskList);
+                        break;
+
+                    case DELETE:
+                        delete(validateId(argsStr, taskList), taskList);
+                        break;
+
+                    case EDIT:
+                        edit(parseEditCommand(argsStr, taskList), taskList);
+                        break;
+
+                    case SEARCH:
+                        search(argsStr, taskList);
                         break;
 
                     case QUIT:
@@ -83,19 +100,46 @@ public class Menu {
             System.out.println(INCORRECT_AGS);
             return ALL;
         }
-
     }
 
-    public Command validateCommand(Task task, String commandStr) {
+    public int validateId(String argsStr, List<Task> taskList) {
+        if (argsStr.matches("\\d+")) {
+            int id = Integer.parseInt(argsStr);
+            if (id < taskList.size()) {
+                return id;
+            }
+        }
+        return -1;
+    }
+
+    public EditArgs parseEditCommand(String argsStr, List<Task> taskList) {
+        List<String> argsList = Arrays.stream(argsStr.split(" "))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        if (argsList.size() == 1) {
+            return new EditArgs(validateId(argsList.get(0), taskList), null);
+        }
+        if (argsList.size() != 2) {
+            return new EditArgs(-1, null);
+        }
+        return new EditArgs(validateId(argsList.get(0), taskList), argsList.get(1));
+    }
+
+    public Command validateCommand(List<Task> taskList, String commandStr) {
 
         if (commandStr.equalsIgnoreCase(PRINT.toLowerCase())) {
-            validateTask(task);
-            return PRINT;
-        } else if (commandStr.equalsIgnoreCase(CREATE.toLowerCase())) {
-            return CREATE;
+            return validateTask(PRINT, taskList);
+        } else if (commandStr.equalsIgnoreCase(ADD.toLowerCase())) {
+            return ADD;
         } else if (commandStr.equalsIgnoreCase(TOGGLE.toLowerCase())) {
-            validateTask(task);
-            return TOGGLE;
+            return validateTask(TOGGLE, taskList);
+        } else if (commandStr.equalsIgnoreCase(DELETE.toLowerCase())) {
+            return validateTask(DELETE, taskList);
+        } else if (commandStr.equalsIgnoreCase(EDIT.toLowerCase())) {
+            return validateTask(EDIT, taskList);
+        } else if (commandStr.equalsIgnoreCase(SEARCH.toLowerCase())) {
+            return validateTask(SEARCH, taskList);
         } else if (commandStr.equalsIgnoreCase(QUIT.toLowerCase())) {
             return QUIT;
         } else {
@@ -103,10 +147,10 @@ public class Menu {
         }
     }
 
-    public void validateTask(Task task){
-        if (task == null) {
+    public Command validateTask(Command command, List<Task> taskList) {
+        if (taskList == null) {
             System.out.println(TASK_NOT_CREATED);
-            quit(this.scanner);
-        }
+            return INCORRECT;
+        } else return command;
     }
 }
