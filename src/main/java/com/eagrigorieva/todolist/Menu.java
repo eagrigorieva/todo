@@ -58,11 +58,11 @@ public class Menu {
                         break;
 
                     case TOGGLE:
-                        toggle(validateId(argsStr, taskList), taskList);
+                        toggle(validateAndReturnId(argsStr, taskList), taskList);
                         break;
 
                     case DELETE:
-                        delete(validateId(argsStr, taskList), taskList);
+                        delete(validateAndReturnId(argsStr, taskList), taskList);
                         break;
 
                     case EDIT:
@@ -102,7 +102,7 @@ public class Menu {
         }
     }
 
-    public int validateId(String argsStr, List<Task> taskList) {
+    public int validateAndReturnId(String argsStr, List<Task> taskList) {
         if (argsStr.matches("\\d+")) {
             int id = Integer.parseInt(argsStr);
             if (id < taskList.size()) {
@@ -118,29 +118,29 @@ public class Menu {
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
         if (argsList.size() == 1) {
-            return new EditArgs(validateId(argsList.get(0), taskList), null);
+            return new EditArgs(validateAndReturnId(argsList.get(0), taskList), null);
         }
         if (argsList.size() != 2) {
             return new EditArgs(-1, null);
         }
-        return new EditArgs(validateId(argsList.get(0), taskList), argsList.get(1));
+        return new EditArgs(validateAndReturnId(argsList.get(0), taskList), argsList.get(1));
     }
 
     public Command validateCommand(List<Task> taskList, String commandStr) {
 
-        if (commandStr.equalsIgnoreCase(PRINT.toLowerCase())) {
+        if (commandStr.equals(PRINT.toLowerCase())) {
             return validateTask(PRINT, taskList);
-        } else if (commandStr.equalsIgnoreCase(ADD.toLowerCase())) {
+        } else if (commandStr.equals(ADD.toLowerCase())) {
             return ADD;
-        } else if (commandStr.equalsIgnoreCase(TOGGLE.toLowerCase())) {
+        } else if (commandStr.equals(TOGGLE.toLowerCase())) {
             return validateTask(TOGGLE, taskList);
-        } else if (commandStr.equalsIgnoreCase(DELETE.toLowerCase())) {
+        } else if (commandStr.equals(DELETE.toLowerCase())) {
             return validateTask(DELETE, taskList);
-        } else if (commandStr.equalsIgnoreCase(EDIT.toLowerCase())) {
+        } else if (commandStr.equals(EDIT.toLowerCase())) {
             return validateTask(EDIT, taskList);
-        } else if (commandStr.equalsIgnoreCase(SEARCH.toLowerCase())) {
+        } else if (commandStr.equals(SEARCH.toLowerCase())) {
             return validateTask(SEARCH, taskList);
-        } else if (commandStr.equalsIgnoreCase(QUIT.toLowerCase())) {
+        } else if (commandStr.equals(QUIT.toLowerCase())) {
             return QUIT;
         } else {
             return INCORRECT;
