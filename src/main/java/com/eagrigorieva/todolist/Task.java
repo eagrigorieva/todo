@@ -55,7 +55,7 @@ public class Task {
     }
 
     public static void toggle(int id, List<Task> taskList) {
-        if (id > -1) {
+        if (id != -1) {
             Task selectedTask = taskList.get(id);
             selectedTask.taskStatus = selectedTask.taskStatus == CREATED ? COMPLETED : CREATED;
             System.out.println("Status changed: " + selectedTask.taskStatus.name() + "\n");
@@ -63,7 +63,7 @@ public class Task {
     }
 
     public static void delete(int id, List<Task> taskList) {
-        if (id > -1) {
+        if (id != -1) {
             taskList.remove(taskList.get(id));
             System.out.println("Task is deleted\n");
         } else System.out.println(TASK_NOT_FOUND);
@@ -83,7 +83,7 @@ public class Task {
         int id = editArgs.getId();
         String description = editArgs.getDescription();
 
-        if (id > -1) {
+        if (id != -1) {
             if (description != null) {
                 taskList.get(id).description = description;
                 System.out.println("Task is edited\n");

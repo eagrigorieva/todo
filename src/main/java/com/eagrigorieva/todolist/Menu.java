@@ -58,11 +58,11 @@ public class Menu {
                         break;
 
                     case TOGGLE:
-                        toggle(validateAndReturnId(argsStr, taskList), taskList);
+                        toggle(parseAndValidateId(argsStr, taskList), taskList);
                         break;
 
                     case DELETE:
-                        delete(validateAndReturnId(argsStr, taskList), taskList);
+                        delete(parseAndValidateId(argsStr, taskList), taskList);
                         break;
 
                     case EDIT:
@@ -102,13 +102,14 @@ public class Menu {
         }
     }
 
-    public int validateAndReturnId(String argsStr, List<Task> taskList) {
+    public int parseAndValidateId(String argsStr, List<Task> taskList) {
         if (argsStr.matches("\\d+")) {
             int id = Integer.parseInt(argsStr);
-            if (id < taskList.size()) {
+            if ((id >= 0) && (id < taskList.size())) {
                 return id;
             }
         }
+        //специальное значение, не граница
         return -1;
     }
 
@@ -118,12 +119,12 @@ public class Menu {
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
         if (argsList.size() == 1) {
-            return new EditArgs(validateAndReturnId(argsList.get(0), taskList), null);
+            return new EditArgs(parseAndValidateId(argsList.get(0), taskList), null);
         }
         if (argsList.size() != 2) {
             return new EditArgs(-1, null);
         }
-        return new EditArgs(validateAndReturnId(argsList.get(0), taskList), argsList.get(1));
+        return new EditArgs(parseAndValidateId(argsList.get(0), taskList), argsList.get(1));
     }
 
     public Command validateCommand(List<Task> taskList, String commandStr) {
