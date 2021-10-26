@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Command {
-    CREATE,
+    ADD,
     PRINT,
     TOGGLE,
+    SEARCH,
+    DELETE,
+    EDIT,
     QUIT,
     INCORRECT;
 
