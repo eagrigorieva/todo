@@ -26,9 +26,9 @@ public class Menu {
     }
 
     public void startMenu() {
-        log.info("\n-----------------------------\n" +
-                "Choose command:\n add \n print \n toggle \n edit \n search \n delete \n quit \n" +
-                "-----------------------------\n");
+        System.out.println("-----------------------------");
+        System.out.println("Choose command:\n add \n print \n toggle \n edit \n search \n delete \n quit ");
+        System.out.println("-----------------------------\n");
     }
 
     @SneakyThrows
@@ -79,9 +79,10 @@ public class Menu {
                         quit(this.scanner);
                         break;
 
-                    case INCORRECT:
+                    case INCORRECT:{
                         log.error(INCORRECT_COMMAND);
-                        break;
+                        System.out.println(INCORRECT_COMMAND);
+                        break;}
                 }
             } while (command != QUIT);
         }
@@ -100,6 +101,7 @@ public class Menu {
             return COMPLETED;
         } else {
             log.debug(INCORRECT_AGS);
+            System.out.println(INCORRECT_AGS);
             return ALL;
         }
     }
@@ -153,6 +155,7 @@ public class Menu {
     public Command validateTask(Command command, List<Task> taskList) {
         if (taskList == null) {
             log.error(TASK_NOT_CREATED);
+            System.out.println(TASK_NOT_CREATED);
             return INCORRECT;
         } else return command;
     }

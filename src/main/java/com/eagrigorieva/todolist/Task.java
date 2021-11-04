@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 import static com.eagrigorieva.enums.TaskStatus.COMPLETED;
 import static com.eagrigorieva.enums.TaskStatus.CREATED;
+
 @Log4j2
 @Data
 public class Task {
@@ -27,6 +28,8 @@ public class Task {
     private static final String PRINT_NO_ONE_TASKS_COMPLETED = "No one task completed";
     public static final String INCORRECT_COMMAND = "Incorrect command";
     public static final String INCORRECT_AGS = "The argument is not recognized, the \"output all tasks\" mod is activated";
+    public static final String SUCCESS = "SUCCESS";
+
 
     private String id;
     private String description;
@@ -41,6 +44,7 @@ public class Task {
     public static List<Task> createTask(List<Task> taskList, String description) {
         taskList.add(new Task(UUID.randomUUID().toString(), description, CREATED));
         log.debug("Task {} description created", description);
+        System.out.println(SUCCESS);
         return taskList;
     }
 
@@ -59,6 +63,8 @@ public class Task {
 
     private static void printTask(List<Task> taskList, Task task) {
         log.debug("{}. [{}] {}", taskList.indexOf(task), task.taskStatus == CREATED ? "" : "x", task.description);
+        System.out.printf("%d. [%s] %s\n", taskList.indexOf(task), task.taskStatus == CREATED ? "" : "x", task.description);
+
     }
 
     public static void toggle(int id, List<Task> taskList) {
@@ -66,14 +72,23 @@ public class Task {
             Task selectedTask = taskList.get(id);
             selectedTask.taskStatus = selectedTask.taskStatus == CREATED ? COMPLETED : CREATED;
             log.debug("Status changed: {}", selectedTask.taskStatus.name());
-        } else log.error(TASK_NOT_FOUND);
+            System.out.println(SUCCESS);
+        } else {
+            log.error(TASK_NOT_FOUND);
+            System.out.println(TASK_NOT_FOUND);
+        }
     }
 
     public static void delete(int id, List<Task> taskList) {
         if (id != -1) {
             taskList.remove(taskList.get(id));
             log.debug("Task is deleted");
-        } else log.error(TASK_NOT_FOUND);
+            System.out.println(SUCCESS);
+        } else {
+            log.error(TASK_NOT_FOUND);
+            System.out.println(TASK_NOT_FOUND);
+        }
+
     }
 
     public static void search(String subStr, List<Task> taskList) {
@@ -82,6 +97,7 @@ public class Task {
                 .collect(Collectors.toList());
         if (foundTasks.isEmpty()) {
             log.error(TASK_NOT_FOUND);
+            System.out.println(TASK_NOT_FOUND);
         }
         foundTasks.forEach(task -> printTask(taskList, task));
     }
@@ -94,13 +110,21 @@ public class Task {
             if (description != null) {
                 taskList.get(id).description = description;
                 log.debug("Task is edited");
-            } else log.error(INCORRECT_DESCRIPTION);
-        } else log.error(TASK_NOT_FOUND);
+                System.out.println(SUCCESS);
+            } else {
+                log.error(INCORRECT_DESCRIPTION);
+                System.out.println(TASK_NOT_FOUND);
+            }
+        } else {
+            log.error(TASK_NOT_FOUND);
+            System.out.println(TASK_NOT_FOUND);
+        }
     }
 
     @SneakyThrows
     public static void quit(BufferedReader scanner) {
         log.debug("Exit");
+        System.out.println("Exit");
         scanner.close();
         System.exit(0);
     }

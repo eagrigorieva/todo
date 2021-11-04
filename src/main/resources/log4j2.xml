@@ -23,7 +23,7 @@
 
     <Loggers>
         <Root level="${sys:logLvl:-TRACE}">
-            <AppenderRef ref="STDOUT" />
+            <!--AppenderRef ref="STDOUT" /-->
             <AppenderRef ref="rollingFile" />
         </Root>
     </Loggers>
