@@ -1,4 +1,4 @@
-package com.eagrigorieva.enums;
+package com.eagrigorieva.enumeration;
 
 import lombok.AllArgsConstructor;
 

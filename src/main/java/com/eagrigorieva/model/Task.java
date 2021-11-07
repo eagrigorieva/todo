@@ -1,6 +1,6 @@
-package com.eagrigorieva.todoEntities;
+package com.eagrigorieva.model;
 
-import com.eagrigorieva.enums.TaskStatus;
+import com.eagrigorieva.enumeration.TaskStatus;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 

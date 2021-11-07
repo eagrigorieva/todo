@@ -1,18 +1,22 @@
-package com.eagrigorieva.operations;
-import com.eagrigorieva.checkTools.EditArgs;
-import com.eagrigorieva.todoEntities.Task;
-import lombok.Data;
+package com.eagrigorieva.operation;
+import com.eagrigorieva.model.EditArgs;
+import com.eagrigorieva.model.Task;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
-import static com.eagrigorieva.checkTools.CheckManager.*;
+import static com.eagrigorieva.checkTool.CheckManager.*;
 
-@Data
+@AllArgsConstructor
 @Log4j2
-public class Edit extends OperationManager{
+public class Edit extends Operation {
 
-    public void edit(EditArgs editArgs, List<Task> taskList) {
+    private List<Task> taskList;
+    private EditArgs editArgs;
+
+    @Override
+    public void execute() {
         int id = editArgs.getId();
         String description = editArgs.getDescription();
 

@@ -1,18 +1,22 @@
-package com.eagrigorieva.operations;
-import com.eagrigorieva.enums.PrintMod;
-import com.eagrigorieva.todoEntities.Task;
-import lombok.Data;
+package com.eagrigorieva.operation;
+import com.eagrigorieva.enumeration.PrintMod;
+import com.eagrigorieva.model.Task;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
-import static com.eagrigorieva.enums.TaskStatus.*;
+import static com.eagrigorieva.enumeration.TaskStatus.*;
 
-@Data
+@AllArgsConstructor
 @Log4j2
-public class Print extends OperationManager{
+public class Print extends Operation {
 
-    public void printTask(PrintMod modCommand, List<Task> taskList) {
+    private List<Task> taskList;
+    private PrintMod modCommand;
+
+    @Override
+    public void execute() {
         switch (modCommand) {
             case ALL:
                 taskList.forEach(task -> printTaskList(taskList, task));

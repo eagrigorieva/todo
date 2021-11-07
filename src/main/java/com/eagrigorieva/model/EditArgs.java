@@ -1,4 +1,4 @@
-package com.eagrigorieva.checkTools;
+package com.eagrigorieva.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

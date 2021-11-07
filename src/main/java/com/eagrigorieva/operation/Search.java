@@ -1,19 +1,25 @@
-package com.eagrigorieva.operations;
+package com.eagrigorieva.operation;
 
-import com.eagrigorieva.todoEntities.Task;
+import com.eagrigorieva.enumeration.PrintMod;
+import com.eagrigorieva.model.Task;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.eagrigorieva.checkTools.CheckManager.*;
+import static com.eagrigorieva.checkTool.CheckManager.*;
 
-@Data
+@AllArgsConstructor
 @Log4j2
-public class Search extends OperationManager{
+public class Search extends Operation {
 
-    public void search(String subStr, List<Task> taskList) {
+    private List<Task> taskList;
+    private String subStr;
+
+    @Override
+    public void execute() {
         List<Task> foundTasks = taskList.stream()
                 .filter(task -> task.getDescription().contains(subStr))
                 .collect(Collectors.toList());

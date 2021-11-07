@@ -1,8 +1,9 @@
-package com.eagrigorieva.checkTools;
+package com.eagrigorieva.checkTool;
 
-import com.eagrigorieva.enums.Command;
-import com.eagrigorieva.enums.PrintMod;
-import com.eagrigorieva.todoEntities.Task;
+import com.eagrigorieva.enumeration.Command;
+import com.eagrigorieva.enumeration.PrintMod;
+import com.eagrigorieva.model.EditArgs;
+import com.eagrigorieva.model.Task;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
@@ -11,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.eagrigorieva.enums.Command.*;
-import static com.eagrigorieva.enums.Command.INCORRECT;
-import static com.eagrigorieva.enums.PrintMod.*;
+import static com.eagrigorieva.enumeration.Command.*;
+import static com.eagrigorieva.enumeration.Command.INCORRECT;
+import static com.eagrigorieva.enumeration.PrintMod.*;
 
 @Log4j2
 @Data
