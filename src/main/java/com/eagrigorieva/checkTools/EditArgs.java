@@ -1,4 +1,4 @@
-package com.eagrigorieva.todolist;
+package com.eagrigorieva.checkTools;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

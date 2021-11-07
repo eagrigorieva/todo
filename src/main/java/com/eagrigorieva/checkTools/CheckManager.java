@@ -1,92 +1,31 @@
-package com.eagrigorieva.todolist;
+package com.eagrigorieva.checkTools;
 
 import com.eagrigorieva.enums.Command;
 import com.eagrigorieva.enums.PrintMod;
-import lombok.SneakyThrows;
+import com.eagrigorieva.todoEntities.Task;
+import lombok.Data;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.eagrigorieva.enums.Command.*;
+import static com.eagrigorieva.enums.Command.INCORRECT;
 import static com.eagrigorieva.enums.PrintMod.*;
-import static com.eagrigorieva.todolist.Task.*;
+
 @Log4j2
-public class Menu {
-
-    private final BufferedReader scanner;
-
-    public Menu(BufferedReader scanner) {
-        this.scanner = scanner;
-    }
-
-    public void startMenu() {
-        System.out.println("-----------------------------");
-        System.out.println("Choose command:\n add \n print \n toggle \n edit \n search \n delete \n quit ");
-        System.out.println("-----------------------------\n");
-    }
-
-    @SneakyThrows
-    public void run() {
-
-        Command command;
-        List<Task> taskList = new ArrayList<>();
-
-        if (this.scanner != null) {
-            do {
-                startMenu();
-                String inputCommand = scanner.readLine();
-
-                //первая часть строки до пробела
-                String commandStr = inputCommand.trim().replaceAll("\\s.*", "");
-                //вторая часть строки до пробела
-                String argsStr = inputCommand.trim().replaceAll("^\\S+\\s+(.+)$", "$1");
-                if (commandStr.equals(argsStr)) argsStr = "default";
-                log.debug("commandStr = {}, argsStr = {}", commandStr, argsStr);
-                command = validateCommand(taskList, commandStr);
-
-                switch (command) {
-                    case ADD:
-                        createTask(taskList, argsStr);
-                        break;
-
-                    case PRINT:
-                        printTask(validatePrintMod(argsStr), taskList);
-                        break;
-
-                    case TOGGLE:
-                        toggle(parseAndValidateId(argsStr, taskList), taskList);
-                        break;
-
-                    case DELETE:
-                        delete(parseAndValidateId(argsStr, taskList), taskList);
-                        break;
-
-                    case EDIT:
-                        edit(parseEditCommand(argsStr, taskList), taskList);
-                        break;
-
-                    case SEARCH:
-                        search(argsStr, taskList);
-                        break;
-
-                    case QUIT:
-                        quit(this.scanner);
-                        break;
-
-                    case INCORRECT:{
-                        log.error(INCORRECT_COMMAND);
-                        System.out.println(INCORRECT_COMMAND);
-                        break;}
-                }
-            } while (command != QUIT);
-        }
-    }
+@Data
+public class CheckManager {
+    public static final String TASK_NOT_CREATED = "No tasks created";
+    public static final String TASK_NOT_FOUND = "Task not found";
+    public static final String INCORRECT_DESCRIPTION = "Incorrect description";
+    private static final String PRINT_ALL_TASKS_COMPLETED = "All tasks is completed";
+    private static final String PRINT_NO_ONE_TASKS_COMPLETED = "No one task completed";
+    public static final String INCORRECT_COMMAND = "Incorrect command";
+    public static final String INCORRECT_AGS = "The argument is not recognized, the \"output all tasks\" mod is activated";
+    public static final String SUCCESS = "SUCCESS";
 
     public PrintMod validatePrintMod(String modStr) {
         if (modStr.equals("default")) {
@@ -158,5 +97,21 @@ public class Menu {
             System.out.println(TASK_NOT_CREATED);
             return INCORRECT;
         } else return command;
+    }
+
+    public List<String> parseInputLine(String inputCommand) {
+        List<String> inputStrList = new ArrayList<>();
+
+        String commandStr = inputCommand.trim().replaceAll("\\s.*", "");
+
+        String argsStr = inputCommand.trim().replaceAll("^\\S+\\s+(.+)$", "$1");
+        if (commandStr.equals(argsStr)) argsStr = "default";
+
+        inputStrList.add(commandStr);
+        inputStrList.add(argsStr);
+
+        log.debug("commandStr = {}, argsStr = {}", commandStr, argsStr);
+
+        return inputStrList;
     }
 }
