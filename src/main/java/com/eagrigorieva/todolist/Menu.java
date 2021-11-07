@@ -3,6 +3,9 @@ package com.eagrigorieva.todolist;
 import com.eagrigorieva.enums.Command;
 import com.eagrigorieva.enums.PrintMod;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -13,11 +16,10 @@ import java.util.stream.Collectors;
 import static com.eagrigorieva.enums.Command.*;
 import static com.eagrigorieva.enums.PrintMod.*;
 import static com.eagrigorieva.todolist.Task.*;
-
+@Log4j2
 public class Menu {
 
     private final BufferedReader scanner;
-
 
     public Menu(BufferedReader scanner) {
         this.scanner = scanner;
@@ -45,7 +47,7 @@ public class Menu {
                 //вторая часть строки до пробела
                 String argsStr = inputCommand.trim().replaceAll("^\\S+\\s+(.+)$", "$1");
                 if (commandStr.equals(argsStr)) argsStr = "default";
-
+                log.debug("commandStr = {}, argsStr = {}", commandStr, argsStr);
                 command = validateCommand(taskList, commandStr);
 
                 switch (command) {
@@ -77,9 +79,10 @@ public class Menu {
                         quit(this.scanner);
                         break;
 
-                    case INCORRECT:
+                    case INCORRECT:{
+                        log.error(INCORRECT_COMMAND);
                         System.out.println(INCORRECT_COMMAND);
-                        break;
+                        break;}
                 }
             } while (command != QUIT);
         }
@@ -97,6 +100,7 @@ public class Menu {
         } else if (modStr.equalsIgnoreCase(COMPLETED.toLowerCase())) {
             return COMPLETED;
         } else {
+            log.debug(INCORRECT_AGS);
             System.out.println(INCORRECT_AGS);
             return ALL;
         }
@@ -150,6 +154,7 @@ public class Menu {
 
     public Command validateTask(Command command, List<Task> taskList) {
         if (taskList == null) {
+            log.error(TASK_NOT_CREATED);
             System.out.println(TASK_NOT_CREATED);
             return INCORRECT;
         } else return command;
