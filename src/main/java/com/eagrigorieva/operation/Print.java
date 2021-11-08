@@ -21,14 +21,19 @@ public class Print extends Operation {
     public void execute() {
         switch (modCommand) {
             case ALL:
-                taskList.forEach(task -> printTaskList(taskList, task.getId()));
+                taskList.forEach(this::print);
                 break;
             case CREATED:
-                taskList.stream().filter(task -> task.getTaskStatus() == CREATED).forEach(task -> printTaskList(taskList, task.getId()));
+                taskList.stream().filter(task -> task.getTaskStatus() == CREATED).forEach(this::print);
                 break;
             case COMPLETED:
-                taskList.stream().filter(task -> task.getTaskStatus() == COMPLETED).forEach(task -> printTaskList(taskList, task.getId()));
+                taskList.stream().filter(task -> task.getTaskStatus() == COMPLETED).forEach(this::print);
                 break;
         }
+    }
+
+    private void print(Task task) {
+        log.debug(task);
+        System.out.println(task);
     }
 }

@@ -1,20 +1,26 @@
 package com.eagrigorieva.model;
 
 import com.eagrigorieva.enumeration.TaskStatus;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
+import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
+
 @Log4j2
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 public class Task {
 
-    private String id;
+    private int id;
     private String description;
     private TaskStatus taskStatus;
 
-    public Task(String id, String description, TaskStatus taskStatus) {
-        this.id = id;
-        this.description = description;
-        this.taskStatus = taskStatus;
+    @Override
+    public String toString() {
+        return String.format("%d. [%s] %s", id, taskStatus == CREATED ? "" : "x", description);
     }
 }

@@ -23,6 +23,11 @@ public class Search extends Operation {
             log.error(TASK_NOT_FOUND);
             System.out.println(TASK_NOT_FOUND);
         }
-        foundTasks.forEach(task -> printTaskList(taskList, task.getId()));
+        foundTasks.forEach(this::print);
+    }
+
+    private void print(Task task) {
+        log.debug(task);
+        System.out.println(task);
     }
 }

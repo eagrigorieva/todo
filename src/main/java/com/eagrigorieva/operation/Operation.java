@@ -16,18 +16,6 @@ public abstract class Operation {
     public static final String INCORRECT_DESCRIPTION = "Incorrect description";
     public static final String SUCCESS = "SUCCESS";
 
-    protected void printTaskList(List<Task> taskList, String id) {
-        Task selectedTask = null;
-        for (Task task : taskList) {
-            if (task.getId().equals(id)) {
-                selectedTask = task;
-                break;
-            }
-        }
-        log.debug("{}. [{}] {}", taskList.indexOf(selectedTask), selectedTask.getTaskStatus() == CREATED ? "" : "x", selectedTask.getDescription());
-        System.out.printf("%d. [%s] %s\n", taskList.indexOf(selectedTask), selectedTask.getTaskStatus() == CREATED ? "" : "x", selectedTask.getDescription());
-    }
-
     protected boolean validateId(List<Task> taskList, int id){
         return (id >= 0) && (id < taskList.size());
     }
