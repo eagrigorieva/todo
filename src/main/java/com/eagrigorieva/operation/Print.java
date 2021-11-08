@@ -1,6 +1,7 @@
 package com.eagrigorieva.operation;
 
 import com.eagrigorieva.enumeration.PrintMod;
+import com.eagrigorieva.enumeration.TaskStatus;
 import com.eagrigorieva.model.Task;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,19 +22,26 @@ public class Print extends Operation {
     public void execute() {
         switch (modCommand) {
             case ALL:
-                taskList.forEach(this::print);
+                for (int i = 0; i < taskList.size(); i++) {
+                    Task task = taskList.get(i);
+                    print(i, task);
+                }
                 break;
             case CREATED:
-                taskList.stream().filter(task -> task.getTaskStatus() == CREATED).forEach(this::print);
+                printTaskWithStatus(CREATED);
                 break;
             case COMPLETED:
-                taskList.stream().filter(task -> task.getTaskStatus() == COMPLETED).forEach(this::print);
+                printTaskWithStatus(COMPLETED);
                 break;
         }
     }
 
-    private void print(Task task) {
-        log.debug(task);
-        System.out.println(task);
+    private void printTaskWithStatus(TaskStatus status) {
+        for (int i = 0; i < taskList.size(); i++) {
+            Task task = taskList.get(i);
+            if (task.getTaskStatus() == status) {
+                print(i, task);
+            }
+        }
     }
 }

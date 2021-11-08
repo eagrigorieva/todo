@@ -17,8 +17,7 @@ public class Add extends Operation {
 
     @Override
     public void execute() {
-        int newIndex = taskList.size();
-        taskList.add(new Task(newIndex, description, CREATED));
+        taskList.add(new Task(UUID.randomUUID().toString(), description, CREATED));
         log.debug("Task {} description created", description);
         System.out.println(SUCCESS);
     }

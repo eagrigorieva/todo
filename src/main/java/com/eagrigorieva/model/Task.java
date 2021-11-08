@@ -15,12 +15,12 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 @AllArgsConstructor
 public class Task {
 
-    private int id;
+    private String id;
     private String description;
     private TaskStatus taskStatus;
 
     @Override
     public String toString() {
-        return String.format("%d. [%s] %s", id, taskStatus == CREATED ? "" : "x", description);
+        return String.format("[%s] %s", taskStatus == CREATED ? "" : "x", description);
     }
 }

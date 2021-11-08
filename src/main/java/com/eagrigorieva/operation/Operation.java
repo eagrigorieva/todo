@@ -16,6 +16,11 @@ public abstract class Operation {
     public static final String INCORRECT_DESCRIPTION = "Incorrect description";
     public static final String SUCCESS = "SUCCESS";
 
+    protected void print(int i, Task task) {
+        log.debug("{}. {}", i, task);
+        System.out.printf("%d. %s\n", i, task);
+    }
+
     protected boolean validateId(List<Task> taskList, int id){
         return (id >= 0) && (id < taskList.size());
     }
