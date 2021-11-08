@@ -59,7 +59,6 @@ public class Menu {
                     System.out.println(INCORRECT_COMMAND);
                     continue;
                 }
-
                 createOperation(command, taskList, checkManager, argsStr).execute();
             }
         }

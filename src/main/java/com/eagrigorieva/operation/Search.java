@@ -27,6 +27,6 @@ public class Search extends Operation {
             log.error(TASK_NOT_FOUND);
             System.out.println(TASK_NOT_FOUND);
         }
-        foundTasks.forEach(task -> printTaskList(taskList, task));
+        foundTasks.forEach(task -> printTaskList(taskList, task.getId()));
     }
 }

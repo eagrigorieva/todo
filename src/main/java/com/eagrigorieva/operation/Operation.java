@@ -12,9 +12,16 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 @Log4j2
 public abstract class Operation {
     
-    protected void printTaskList(List<Task> taskList, Task task) {
-        log.debug("{}. [{}] {}", taskList.indexOf(task), task.getTaskStatus() == CREATED ? "" : "x", task.getDescription());
-        System.out.printf("%d. [%s] %s\n", taskList.indexOf(task), task.getTaskStatus() == CREATED ? "" : "x", task.getDescription());
+    protected void printTaskList(List<Task> taskList, String id) {
+        Task selectedTask = null;
+        for (Task task : taskList) {
+            if (task.getId().equals(id)) {
+                selectedTask = task;
+                break;
+            }
+        }
+        log.debug("{}. [{}] {}", taskList.indexOf(selectedTask), selectedTask.getTaskStatus() == CREATED ? "" : "x", selectedTask.getDescription());
+        System.out.printf("%d. [%s] %s\n", taskList.indexOf(selectedTask), selectedTask.getTaskStatus() == CREATED ? "" : "x", selectedTask.getDescription());
     }
 
     public abstract void execute();
