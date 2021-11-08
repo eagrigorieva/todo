@@ -31,22 +31,19 @@ public class Menu {
     @SneakyThrows
     public void run() {
 
-        Command command;
-
         List<Task> taskList = new ArrayList<>();
-
         CheckManager checkManager = new CheckManager();
+        OperationFactory operationFactory = new OperationFactory(checkManager);
 
         if (this.reader != null) {
             while (true) {
                 startMenu();
 
                 List<String> commandStrList = checkManager.parseInputLine(reader.readLine());
-
                 String commandStr = commandStrList.get(0);
                 String argsStr = commandStrList.get(1);
 
-                command = checkManager.validateCommand(taskList, commandStr);
+                Command command = checkManager.validateCommand(taskList, commandStr);
 
                 if (command == QUIT) {
                     log.debug("Exit");
@@ -59,32 +56,9 @@ public class Menu {
                     System.out.println(INCORRECT_COMMAND);
                     continue;
                 }
-                createOperation(command, taskList, checkManager, argsStr).execute();
+
+                operationFactory.createOperation(command, taskList, argsStr).execute();
             }
         }
-    }
-
-    private Operation createOperation(Command command, List<Task> taskList, CheckManager checkManager, String argsStr) {
-        switch (command) {
-            case ADD:
-                return new Add(taskList, argsStr);
-
-            case PRINT:
-                return new Print(taskList, checkManager.validatePrintMod(argsStr));
-
-            case TOGGLE:
-                return new Toggle(taskList, checkManager.parseAndValidateId(argsStr, taskList));
-
-            case DELETE:
-                return new Delete(taskList, checkManager.parseAndValidateId(argsStr, taskList));
-
-            case EDIT:
-                return new Edit(taskList, checkManager.parseEditCommand(argsStr, taskList));
-
-            case SEARCH:
-                return new Search(taskList, argsStr);
-        }
-        log.error("IllegalStateException");
-        throw new IllegalStateException();
     }
 }
