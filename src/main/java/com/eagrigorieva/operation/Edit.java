@@ -6,8 +6,6 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
-import static com.eagrigorieva.checkTool.CheckManager.*;
-
 @AllArgsConstructor
 @Log4j2
 public class Edit extends Operation {
@@ -20,7 +18,7 @@ public class Edit extends Operation {
         int id = editArgs.getId();
         String description = editArgs.getDescription();
 
-        if (id != -1) {
+        if (validateId(taskList, id)) {
             if (description != null) {
                 taskList.get(id).setDescription(description);
                 log.debug("Task is edited");

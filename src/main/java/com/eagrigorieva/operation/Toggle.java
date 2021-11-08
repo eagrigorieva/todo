@@ -1,16 +1,16 @@
 package com.eagrigorieva.operation;
+
 import com.eagrigorieva.model.Task;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
-import static com.eagrigorieva.enumeration.TaskStatus.*;
-import static com.eagrigorieva.checkTool.CheckManager.*;
+import static com.eagrigorieva.enumeration.TaskStatus.COMPLETED;
+import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
-@AllArgsConstructor
 @Log4j2
+@AllArgsConstructor
 public class Toggle extends Operation {
 
     private List<Task> taskList;
@@ -18,7 +18,7 @@ public class Toggle extends Operation {
 
     @Override
     public void execute() {
-        if (id != -1) {
+        if (validateId(taskList, id)) {
             Task selectedTask = taskList.get(id);
             selectedTask.setTaskStatus(selectedTask.getTaskStatus() == CREATED ? COMPLETED : CREATED);
             log.debug("Status changed: {}", selectedTask.getTaskStatus().name());

@@ -1,8 +1,8 @@
 package com.eagrigorieva.model;
 
 import com.eagrigorieva.enumeration.Command;
-import com.eagrigorieva.operation.*;
-import com.eagrigorieva.checkTool.CheckManager;
+import com.eagrigorieva.operation.OperationFactory;
+import com.eagrigorieva.tool.Parser;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
@@ -10,12 +10,13 @@ import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.eagrigorieva.enumeration.Command.*;
-import static com.eagrigorieva.checkTool.CheckManager.*;
+import static com.eagrigorieva.enumeration.Command.INCORRECT;
+import static com.eagrigorieva.enumeration.Command.QUIT;
 
 @Log4j2
 public class Menu {
 
+    public static final String INCORRECT_COMMAND = "Incorrect command";
     private final BufferedReader reader;
 
     public Menu(BufferedReader reader) {
@@ -32,7 +33,7 @@ public class Menu {
     public void run() {
 
         List<Task> taskList = new ArrayList<>();
-        CheckManager checkManager = new CheckManager();
+        Parser checkManager = new Parser();
         OperationFactory operationFactory = new OperationFactory(checkManager);
 
         if (this.reader != null) {
@@ -43,7 +44,7 @@ public class Menu {
                 String commandStr = commandStrList.get(0);
                 String argsStr = commandStrList.get(1);
 
-                Command command = checkManager.validateCommand(taskList, commandStr);
+                Command command = Command.getCommand(commandStr);
 
                 if (command == QUIT) {
                     log.debug("Exit");

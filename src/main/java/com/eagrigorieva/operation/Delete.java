@@ -1,12 +1,9 @@
 package com.eagrigorieva.operation;
 import com.eagrigorieva.model.Task;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
-
-import static com.eagrigorieva.checkTool.CheckManager.*;
 
 @AllArgsConstructor
 @Log4j2
@@ -17,7 +14,7 @@ public class Delete extends Operation {
 
     @Override
     public void execute() {
-        if (id != -1) {
+        if (validateId(taskList, id)) {
             taskList.remove(taskList.get(id));
             log.debug("Task is deleted");
             System.out.println(SUCCESS);

@@ -1,8 +1,9 @@
 package com.eagrigorieva.operation;
 
-import com.eagrigorieva.checkTool.CheckManager;
 import com.eagrigorieva.enumeration.Command;
+import com.eagrigorieva.enumeration.PrintMod;
 import com.eagrigorieva.model.Task;
+import com.eagrigorieva.tool.Parser;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OperationFactory {
 
-    private CheckManager checkManager;
+    private Parser parser;
 
     public Operation createOperation(Command command, List<Task> taskList, String argsStr) {
         switch (command) {
@@ -20,16 +21,16 @@ public class OperationFactory {
                 return new Add(taskList, argsStr);
 
             case PRINT:
-                return new Print(taskList, checkManager.validatePrintMod(argsStr));
+                return new Print(taskList, PrintMod.getPrintMod(argsStr));
 
             case TOGGLE:
-                return new Toggle(taskList, checkManager.parseAndValidateId(argsStr, taskList));
+                return new Toggle(taskList, parser.parseStrToInt(argsStr));
 
             case DELETE:
-                return new Delete(taskList, checkManager.parseAndValidateId(argsStr, taskList));
+                return new Delete(taskList, parser.parseStrToInt(argsStr));
 
             case EDIT:
-                return new Edit(taskList, checkManager.parseEditCommand(argsStr, taskList));
+                return new Edit(taskList, parser.parseEditCommand(argsStr));
 
             case SEARCH:
                 return new Search(taskList, argsStr);

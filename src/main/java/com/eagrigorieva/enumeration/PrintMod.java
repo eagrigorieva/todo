@@ -8,7 +8,16 @@ public enum PrintMod {
     CREATED,
     COMPLETED;
 
-    public String toLowerCase(){
-        return name().toLowerCase();
+    public static PrintMod getPrintMod(String modStr) {
+        if (modStr.equals("default")) {
+            return CREATED;
+        }
+
+        for (PrintMod mod : values()) {
+            if (mod.name().equalsIgnoreCase(modStr)) {
+                return mod;
+            }
+        }
+        return ALL;
     }
 }

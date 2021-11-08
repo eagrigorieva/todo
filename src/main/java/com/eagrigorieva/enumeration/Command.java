@@ -13,9 +13,12 @@ public enum Command {
     QUIT,
     INCORRECT;
 
-    public String toLowerCase(){
-        return name().toLowerCase();
+    public static Command getCommand(String commandStr) {
+        for (Command command : values()) {
+            if (command.name().equalsIgnoreCase(commandStr)) {
+                return command;
+            }
+        }
+        return INCORRECT;
     }
-
-
 }
