@@ -1,6 +1,7 @@
 package com.eagrigorieva.operation;
 import com.eagrigorieva.model.EditArgs;
 import com.eagrigorieva.model.Task;
+import com.eagrigorieva.model.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Log4j2
 public class Edit extends Operation {
 
-    private List<Task> taskList;
+    private TaskStorage taskList;
     private EditArgs editArgs;
 
     @Override

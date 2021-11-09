@@ -1,6 +1,7 @@
 package com.eagrigorieva.operation;
 
 import com.eagrigorieva.model.Task;
+import com.eagrigorieva.model.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -11,12 +12,12 @@ import java.util.stream.Collectors;
 @Log4j2
 public class Search extends Operation {
 
-    private List<Task> taskList;
+    private TaskStorage taskList;
     private String subStr;
 
     @Override
     public void execute() {
-        List<Task> foundTasks = taskList.stream()
+        List<Task> foundTasks = taskList.getTaskList().stream()
                 .filter(task -> task.getDescription().contains(subStr))
                 .collect(Collectors.toList());
         if (foundTasks.isEmpty()) {

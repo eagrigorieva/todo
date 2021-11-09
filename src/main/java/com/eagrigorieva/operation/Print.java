@@ -3,6 +3,7 @@ package com.eagrigorieva.operation;
 import com.eagrigorieva.enumeration.PrintMod;
 import com.eagrigorieva.enumeration.TaskStatus;
 import com.eagrigorieva.model.Task;
+import com.eagrigorieva.model.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -15,7 +16,7 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 @Log4j2
 public class Print extends Operation {
 
-    private List<Task> taskList;
+    private TaskStorage taskList;
     private PrintMod modCommand;
 
     @Override

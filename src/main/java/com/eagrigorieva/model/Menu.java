@@ -32,7 +32,7 @@ public class Menu {
     @SneakyThrows
     public void run() {
 
-        List<Task> taskList = new ArrayList<>();
+        TaskStorage taskList = new TaskStorageImpl();
         Parser checkManager = new Parser();
         OperationFactory operationFactory = new OperationFactory(checkManager);
 

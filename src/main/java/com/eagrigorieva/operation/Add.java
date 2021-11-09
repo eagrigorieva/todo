@@ -1,5 +1,6 @@
 package com.eagrigorieva.operation;
 import com.eagrigorieva.model.Task;
+import com.eagrigorieva.model.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -8,11 +9,11 @@ import java.util.UUID;
 
 import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
-@AllArgsConstructor
 @Log4j2
+@AllArgsConstructor
 public class Add extends Operation {
 
-    private List<Task> taskList;
+    private TaskStorage taskList;
     private String description;
 
     @Override

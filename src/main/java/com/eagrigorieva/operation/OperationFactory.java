@@ -3,6 +3,7 @@ package com.eagrigorieva.operation;
 import com.eagrigorieva.enumeration.Command;
 import com.eagrigorieva.enumeration.PrintMod;
 import com.eagrigorieva.model.Task;
+import com.eagrigorieva.model.TaskStorage;
 import com.eagrigorieva.tool.Parser;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,7 +16,7 @@ public class OperationFactory {
 
     private Parser parser;
 
-    public Operation createOperation(Command command, List<Task> taskList, String argsStr) {
+    public Operation createOperation(Command command, TaskStorage taskList, String argsStr) {
         switch (command) {
             case ADD:
                 return new Add(taskList, argsStr);

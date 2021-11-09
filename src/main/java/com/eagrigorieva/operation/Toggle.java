@@ -1,6 +1,7 @@
 package com.eagrigorieva.operation;
 
 import com.eagrigorieva.model.Task;
+import com.eagrigorieva.model.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -13,7 +14,7 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 @AllArgsConstructor
 public class Toggle extends Operation {
 
-    private List<Task> taskList;
+    private TaskStorage taskList;
     private int id;
 
     @Override
