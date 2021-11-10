@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="debug" strict="true"
                name="XMLConfigTest" packages="org.apache.logging.log4j.test">
-    <Filter type="ThresholdFilter" level="trace" />
+    <Filter type="ThresholdFilter" level="trace"/>
 
     <Appenders>
         <Console name="STDOUT">
-            <Layout type="PatternLayout" pattern="[%p] %m %n" />
+            <Layout type="PatternLayout" pattern="[%p] %m %n"/>
         </Console>
         <RollingFile name="rollingFile"
                      fileName="logs/log.txt"
@@ -14,9 +14,8 @@
                 <Pattern>%d [%p] [%t] (%c{1.}.%M) %m%n</Pattern>
             </PatternLayout>
             <Policies>
-                <TimeBasedTriggeringPolicy interval = "1" />
-                <SizeBasedTriggeringPolicy
-                        size="250 MB" />
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
             </Policies>
         </RollingFile>
     </Appenders>
@@ -24,7 +23,7 @@
     <Loggers>
         <Root level="${sys:logLvl:-TRACE}">
             <!--AppenderRef ref="STDOUT" /-->
-            <AppenderRef ref="rollingFile" />
+            <AppenderRef ref="rollingFile"/>
         </Root>
     </Loggers>
 
