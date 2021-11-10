@@ -1,12 +1,19 @@
-package com.eagrigorieva.model;
+package com.eagrigorieva.storage;
+
+import com.eagrigorieva.model.Task;
 
 import java.util.List;
 
 public interface TaskStorage {
     void add(Task task);
+
     Task get(int id);
+
     List<Task> getTaskList();
+
     void remove(int id);
+
     int size();
-    int indexOf(Task task);
+
+    int getId(Task task);
 }

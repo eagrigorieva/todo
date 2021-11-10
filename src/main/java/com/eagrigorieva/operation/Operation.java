@@ -1,13 +1,11 @@
 package com.eagrigorieva.operation;
 
 import com.eagrigorieva.model.Task;
-import com.eagrigorieva.model.TaskStorage;
+import com.eagrigorieva.storage.TaskStorage;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
-
-import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
 @Data
 @Log4j2
@@ -22,9 +20,16 @@ public abstract class Operation {
         System.out.printf("%d. %s\n", i, task);
     }
 
-    protected boolean validateId(TaskStorage taskList, int id){
+    protected boolean validateId(TaskStorage taskList, int id) {
         return (id >= 0) && (id < taskList.size());
     }
 
-    public abstract void execute();
+    protected int parseStrToInt(String inputString) {
+        if (inputString.matches("\\d+")) {
+            return Integer.parseInt(inputString);
+        }
+        return -1;
+    }
+
+    public abstract void execute(TaskStorage taskList, List<String> args);
 }

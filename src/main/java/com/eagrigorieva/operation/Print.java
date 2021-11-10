@@ -3,7 +3,7 @@ package com.eagrigorieva.operation;
 import com.eagrigorieva.enumeration.PrintMod;
 import com.eagrigorieva.enumeration.TaskStatus;
 import com.eagrigorieva.model.Task;
-import com.eagrigorieva.model.TaskStorage;
+import com.eagrigorieva.storage.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -16,11 +16,9 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 @Log4j2
 public class Print extends Operation {
 
-    private TaskStorage taskList;
-    private PrintMod modCommand;
-
     @Override
-    public void execute() {
+    public void execute(TaskStorage taskList, List<String> args) {
+        PrintMod modCommand = args.isEmpty() ? PrintMod.CREATED : PrintMod.getPrintMod(args.get(0));
         switch (modCommand) {
             case ALL:
                 for (int i = 0; i < taskList.size(); i++) {
@@ -29,15 +27,15 @@ public class Print extends Operation {
                 }
                 break;
             case CREATED:
-                printTaskWithStatus(CREATED);
+                printTaskWithStatus(taskList, CREATED);
                 break;
             case COMPLETED:
-                printTaskWithStatus(COMPLETED);
+                printTaskWithStatus(taskList, COMPLETED);
                 break;
         }
     }
 
-    private void printTaskWithStatus(TaskStatus status) {
+    private void printTaskWithStatus(TaskStorage taskList, TaskStatus status) {
         for (int i = 0; i < taskList.size(); i++) {
             Task task = taskList.get(i);
             if (task.getTaskStatus() == status) {

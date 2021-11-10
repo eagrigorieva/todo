@@ -2,7 +2,6 @@ package com.eagrigorieva.model;
 
 import com.eagrigorieva.enumeration.TaskStatus;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +20,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", taskStatus == CREATED ? "" : "x", description);
+        return String.format("[%s] %s", taskStatus == CREATED ? " " : "x", description);
     }
 }

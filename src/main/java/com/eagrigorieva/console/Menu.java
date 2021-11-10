@@ -1,14 +1,15 @@
-package com.eagrigorieva.model;
+package com.eagrigorieva.console;
 
 import com.eagrigorieva.enumeration.Command;
-import com.eagrigorieva.operation.OperationFactory;
-import com.eagrigorieva.tool.Parser;
+import com.eagrigorieva.operation.factory.OperationFactory;
+import com.eagrigorieva.parser.OperationParser;
+import com.eagrigorieva.parser.UserInput;
+import com.eagrigorieva.storage.TaskStorage;
+import com.eagrigorieva.storage.TaskStorageImpl;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.eagrigorieva.enumeration.Command.INCORRECT;
 import static com.eagrigorieva.enumeration.Command.QUIT;
@@ -18,6 +19,8 @@ public class Menu {
 
     public static final String INCORRECT_COMMAND = "Incorrect command";
     private final BufferedReader reader;
+    private final OperationParser operationParser = new OperationParser();
+    private final OperationFactory operationFactory = new OperationFactory();
 
     public Menu(BufferedReader reader) {
         this.reader = reader;
@@ -31,34 +34,27 @@ public class Menu {
 
     @SneakyThrows
     public void run() {
-
         TaskStorage taskList = new TaskStorageImpl();
-        Parser checkManager = new Parser();
-        OperationFactory operationFactory = new OperationFactory(checkManager);
 
         if (this.reader != null) {
             while (true) {
                 startMenu();
 
-                List<String> commandStrList = checkManager.parseInputLine(reader.readLine());
-                String commandStr = commandStrList.get(0);
-                String argsStr = commandStrList.get(1);
-
-                Command command = Command.getCommand(commandStr);
+                UserInput commandStrList = operationParser.getParseOperation(reader.readLine());
+                Command command = commandStrList.getCommand();
 
                 if (command == QUIT) {
                     log.debug("Exit");
                     System.out.println("Exit");
                     return;
                 }
-
                 if (command == INCORRECT) {
                     log.error(INCORRECT_COMMAND);
                     System.out.println(INCORRECT_COMMAND);
                     continue;
                 }
 
-                operationFactory.createOperation(command, taskList, argsStr).execute();
+                operationFactory.createOperation(command).execute(taskList, commandStrList.getArgList());
             }
         }
     }

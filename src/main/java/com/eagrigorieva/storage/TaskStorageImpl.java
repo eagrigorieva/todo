@@ -1,4 +1,6 @@
-package com.eagrigorieva.model;
+package com.eagrigorieva.storage;
+
+import com.eagrigorieva.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,7 @@ public class TaskStorageImpl implements TaskStorage {
     }
 
     @Override
-    public int indexOf(Task task) {
+    public int getId(Task task) {
         return taskList.indexOf(task);
     }
 }

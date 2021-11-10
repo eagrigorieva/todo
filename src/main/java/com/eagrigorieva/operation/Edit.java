@@ -1,7 +1,6 @@
 package com.eagrigorieva.operation;
-import com.eagrigorieva.model.EditArgs;
-import com.eagrigorieva.model.Task;
-import com.eagrigorieva.model.TaskStorage;
+
+import com.eagrigorieva.storage.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -11,23 +10,27 @@ import java.util.List;
 @Log4j2
 public class Edit extends Operation {
 
-    private TaskStorage taskList;
-    private EditArgs editArgs;
-
     @Override
-    public void execute() {
-        int id = editArgs.getId();
-        String description = editArgs.getDescription();
+    public void execute(TaskStorage taskList, List<String> args) {
+        if (args.isEmpty()) {
+            log.error(TASK_NOT_FOUND);
+            System.out.println(TASK_NOT_FOUND);
+            return;
+        }
+
+        if (args.size() < 2) {
+            log.error(INCORRECT_DESCRIPTION);
+            System.out.println(INCORRECT_DESCRIPTION);
+            return;
+        }
+
+        int id = parseStrToInt(args.get(0));
+        String description = String.join(" ", args.subList(1, args.size()));
 
         if (validateId(taskList, id)) {
-            if (description != null) {
-                taskList.get(id).setDescription(description);
-                log.debug("Task is edited");
-                System.out.println(SUCCESS);
-            } else {
-                log.error(INCORRECT_DESCRIPTION);
-                System.out.println(TASK_NOT_FOUND);
-            }
+            taskList.get(id).setDescription(description);
+            System.out.println(SUCCESS);
+            log.debug("Task is edited");
         } else {
             log.error(TASK_NOT_FOUND);
             System.out.println(TASK_NOT_FOUND);
