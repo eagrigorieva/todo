@@ -9,27 +9,6 @@ import lombok.extern.log4j.Log4j2;
 @AllArgsConstructor
 public abstract class OperationFactory {
 
-    public abstract Operation createOperation(); /*{
-        switch (command) {
-            case ADD:
-                return new Add();
+    public abstract Operation createOperation();
 
-            case PRINT:
-                return new Print();
-
-            case TOGGLE:
-                return new Toggle();
-
-            case DELETE:
-                return new Delete();
-
-            case EDIT:
-                return new Edit();
-
-            case SEARCH:
-                return new Search();
-        }
-        log.error("IllegalStateException");
-        throw new IllegalStateException();
-    }*/
 }

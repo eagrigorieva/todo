@@ -5,7 +5,7 @@ import com.eagrigorieva.operation.Operation;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-public class OperationCreater {
+public class OperationFactoryCreator {
     public OperationFactory createOperationFactory(Command command) {
         switch (command) {
             case ADD:
