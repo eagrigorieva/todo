@@ -1,7 +1,6 @@
 package com.eagrigorieva.operation.factory;
 
-import com.eagrigorieva.enumeration.Command;
-import com.eagrigorieva.operation.*;
+import com.eagrigorieva.operation.Operation;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
