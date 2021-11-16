@@ -1,6 +1,7 @@
 package com.eagrigorieva.console;
 
 import com.eagrigorieva.enumeration.Command;
+import com.eagrigorieva.operation.factory.OperationCreater;
 import com.eagrigorieva.operation.factory.OperationFactory;
 import com.eagrigorieva.parser.OperationParser;
 import com.eagrigorieva.parser.UserInput;
@@ -20,7 +21,7 @@ public class Menu {
     public static final String INCORRECT_COMMAND = "Incorrect command";
     private final BufferedReader reader;
     private final OperationParser operationParser = new OperationParser();
-    private final OperationFactory operationFactory = new OperationFactory();
+    private final OperationCreater operationCreater = new OperationCreater();
 
     public Menu(BufferedReader reader) {
         this.reader = reader;
@@ -54,7 +55,7 @@ public class Menu {
                     continue;
                 }
 
-                operationFactory.createOperation(command).execute(taskList, commandStrList.getArgList());
+                operationCreater.createOperationFactory(command).createOperation().execute(taskList, commandStrList.getArgList());
             }
         }
     }

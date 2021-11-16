@@ -7,9 +7,9 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @AllArgsConstructor
-public class OperationFactory {
+public abstract class OperationFactory {
 
-    public Operation createOperation(Command command) {
+    public abstract Operation createOperation(); /*{
         switch (command) {
             case ADD:
                 return new Add();
@@ -31,5 +31,5 @@ public class OperationFactory {
         }
         log.error("IllegalStateException");
         throw new IllegalStateException();
-    }
+    }*/
 }
