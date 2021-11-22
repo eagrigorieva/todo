@@ -5,7 +5,7 @@ import com.eagrigorieva.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskStorageImpl implements TaskStorage {
+public class TaskStorageList implements TaskStorage {
 
     private final List<Task> taskList = new ArrayList<>();
 

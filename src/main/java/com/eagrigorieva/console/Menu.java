@@ -1,11 +1,11 @@
 package com.eagrigorieva.console;
 
 import com.eagrigorieva.enumeration.Command;
-import com.eagrigorieva.operation.factory.OperationFactory;
+import com.eagrigorieva.operation.factory.OperationFactoryCreator;
 import com.eagrigorieva.parser.OperationParser;
 import com.eagrigorieva.parser.UserInput;
 import com.eagrigorieva.storage.TaskStorage;
-import com.eagrigorieva.storage.TaskStorageImpl;
+import com.eagrigorieva.storage.TaskStorageList;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 
@@ -20,7 +20,7 @@ public class Menu {
     public static final String INCORRECT_COMMAND = "Incorrect command";
     private final BufferedReader reader;
     private final OperationParser operationParser = new OperationParser();
-    private final OperationFactory operationFactory = new OperationFactory();
+    private final OperationFactoryCreator operationCreator = new OperationFactoryCreator();
 
     public Menu(BufferedReader reader) {
         this.reader = reader;
@@ -34,7 +34,7 @@ public class Menu {
 
     @SneakyThrows
     public void run() {
-        TaskStorage taskList = new TaskStorageImpl();
+        TaskStorage taskList = new TaskStorageList();
 
         if (this.reader != null) {
             while (true) {
@@ -54,7 +54,7 @@ public class Menu {
                     continue;
                 }
 
-                operationFactory.createOperation(command).execute(taskList, commandStrList.getArgList());
+                operationCreator.createOperationFactory(command).createOperation().execute(taskList, commandStrList.getArgList());
             }
         }
     }
