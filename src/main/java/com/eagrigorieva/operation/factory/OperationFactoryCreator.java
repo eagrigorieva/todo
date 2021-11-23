@@ -1,31 +1,25 @@
 package com.eagrigorieva.operation.factory;
 
 import com.eagrigorieva.enumeration.Command;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@Log4j2
+import java.util.List;
+
+@Slf4j
+@Component
 public class OperationFactoryCreator {
+    @Autowired
+    private List<OperationFactory> operationFactoryList;
+
     public OperationFactory createOperationFactory(Command command) {
-        switch (command) {
-            case ADD:
-                return new AddFactory();
-
-            case PRINT:
-                return new PrintFactory();
-
-            case TOGGLE:
-                return new ToggleFactory();
-
-            case DELETE:
-                return new DeleteFactory();
-
-            case EDIT:
-                return new EditFactory();
-
-            case SEARCH:
-                return new SearchFactory();
-        }
-        log.error("IllegalStateException");
-        throw new IllegalStateException();
+        return operationFactoryList.stream()
+                .filter(l -> l.checkFactoryMethod(command))
+                .findFirst()
+                .orElseThrow(() -> {
+                    log.error("IllegalStateException");
+                    return new IllegalStateException();
+                });
     }
 }

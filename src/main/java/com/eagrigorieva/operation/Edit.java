@@ -2,12 +2,13 @@ package com.eagrigorieva.operation;
 
 import com.eagrigorieva.storage.TaskStorage;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+
+@Slf4j
 @AllArgsConstructor
-@Log4j2
 public class Edit extends Operation {
 
     @Override

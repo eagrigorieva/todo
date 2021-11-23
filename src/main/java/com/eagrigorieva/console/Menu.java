@@ -5,26 +5,27 @@ import com.eagrigorieva.operation.factory.OperationFactoryCreator;
 import com.eagrigorieva.parser.OperationParser;
 import com.eagrigorieva.parser.UserInput;
 import com.eagrigorieva.storage.TaskStorage;
-import com.eagrigorieva.storage.TaskStorageList;
 import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 
 import static com.eagrigorieva.enumeration.Command.INCORRECT;
 import static com.eagrigorieva.enumeration.Command.QUIT;
 
-@Log4j2
+@Slf4j
+@Component
 public class Menu {
 
     public static final String INCORRECT_COMMAND = "Incorrect command";
-    private final BufferedReader reader;
-    private final OperationParser operationParser = new OperationParser();
-    private final OperationFactoryCreator operationCreator = new OperationFactoryCreator();
-
-    public Menu(BufferedReader reader) {
-        this.reader = reader;
-    }
+    @Autowired
+    private OperationParser operationParser;
+    @Autowired
+    private OperationFactoryCreator operationCreator;
+    @Autowired
+    private TaskStorage taskList;
 
     public void startMenu() {
         System.out.println("-----------------------------");
@@ -33,10 +34,9 @@ public class Menu {
     }
 
     @SneakyThrows
-    public void run() {
-        TaskStorage taskList = new TaskStorageList();
+    public void run(BufferedReader reader) {
 
-        if (this.reader != null) {
+        if (reader != null) {
             while (true) {
                 startMenu();
 
