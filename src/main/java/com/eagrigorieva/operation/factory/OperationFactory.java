@@ -1,9 +1,12 @@
 package com.eagrigorieva.operation.factory;
 
+import com.eagrigorieva.enumeration.Command;
 import com.eagrigorieva.operation.Operation;
 
-public abstract class OperationFactory {
+public interface OperationFactory {
 
-    public abstract Operation createOperation();
+    Operation createOperation();
+
+    boolean checkFactoryMethod(Command command);
 
 }

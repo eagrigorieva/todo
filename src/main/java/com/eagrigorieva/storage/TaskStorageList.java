@@ -1,10 +1,12 @@
 package com.eagrigorieva.storage;
 
 import com.eagrigorieva.model.Task;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class TaskStorageList implements TaskStorage {
 
     private final List<Task> taskList = new ArrayList<>();

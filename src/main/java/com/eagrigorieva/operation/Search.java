@@ -3,13 +3,13 @@ package com.eagrigorieva.operation;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.storage.TaskStorage;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @AllArgsConstructor
-@Log4j2
 public class Search extends Operation {
 
     @Override

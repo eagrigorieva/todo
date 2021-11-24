@@ -3,12 +3,12 @@ package com.eagrigorieva.operation;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.storage.TaskStorage;
 import lombok.Data;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 @Data
-@Log4j2
+@Slf4j
 public abstract class Operation {
 
     public static final String TASK_NOT_FOUND = "Task not found";

@@ -3,14 +3,14 @@ package com.eagrigorieva.operation;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.storage.TaskStorage;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 import static com.eagrigorieva.enumeration.TaskStatus.COMPLETED;
 import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
-@Log4j2
+@Slf4j
 @AllArgsConstructor
 public class Toggle extends Operation {
 

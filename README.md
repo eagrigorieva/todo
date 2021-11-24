@@ -14,14 +14,6 @@ mvn clean package
 java -jar .\target\todo-jar-with-dependencies.jar
 ```
 
-Настройка уровня логирования:
-
-logLvl определяет глобальный уровень логирования
-
-```
-java -jar -DlogLvl=INFO .\target\todo-jar-with-dependencies.jar
-```
-
 ## Описание команд
 
 ### add
