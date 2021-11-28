@@ -1,7 +1,7 @@
 package com.eagrigorieva.operation.factory;
 
 import com.eagrigorieva.enumeration.Command;
-import com.eagrigorieva.operation.Add;
+import com.eagrigorieva.operation.Create;
 import com.eagrigorieva.operation.Operation;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ public class AddFactory implements OperationFactory {
 
     @Override
     public Operation createOperation() {
-        return new Add();
+        return new Create();
     }
 
     @Override

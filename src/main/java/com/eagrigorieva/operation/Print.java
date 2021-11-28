@@ -7,7 +7,9 @@ import com.eagrigorieva.storage.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.eagrigorieva.enumeration.TaskStatus.COMPLETED;
 import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
@@ -17,30 +19,23 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 public class Print extends Operation {
 
     @Override
-    public void execute(TaskStorage taskList, List<String> args) {
+    public List<Task> execute(TaskStorage taskList, List<String> args) {
         PrintMod modCommand = args.isEmpty() ? PrintMod.CREATED : PrintMod.getPrintMod(args.get(0));
         switch (modCommand) {
             case ALL:
-                for (int i = 0; i < taskList.size(); i++) {
-                    Task task = taskList.get(i);
-                    print(i, task);
-                }
-                break;
+                return taskList.getTaskList();
             case CREATED:
-                printTaskWithStatus(taskList, CREATED);
-                break;
+                return getTaskListByStatus(taskList, CREATED);
             case COMPLETED:
-                printTaskWithStatus(taskList, COMPLETED);
-                break;
+                return getTaskListByStatus(taskList, COMPLETED);
         }
+        return Collections.emptyList();
     }
 
-    private void printTaskWithStatus(TaskStorage taskList, TaskStatus status) {
-        for (int i = 0; i < taskList.size(); i++) {
-            Task task = taskList.get(i);
-            if (task.getTaskStatus() == status) {
-                print(i, task);
-            }
-        }
+    private List<Task> getTaskListByStatus(TaskStorage taskList, TaskStatus status) {
+        return taskList.getTaskList()
+                .stream()
+                .filter(t -> t.getTaskStatus() == status)
+                .collect(Collectors.toList());
     }
 }

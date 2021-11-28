@@ -1,5 +1,6 @@
 package com.eagrigorieva.operation;
 
+import com.eagrigorieva.dto.TaskDto;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.storage.TaskStorage;
 import lombok.Data;
@@ -15,15 +16,6 @@ public abstract class Operation {
     public static final String INCORRECT_DESCRIPTION = "Incorrect description";
     public static final String SUCCESS = "SUCCESS";
 
-    protected void print(int i, Task task) {
-        log.debug("{}. {}", i, task);
-        System.out.printf("%d. %s\n", i, task);
-    }
-
-    protected boolean validateId(TaskStorage taskList, int id) {
-        return (id >= 0) && (id < taskList.size());
-    }
-
     protected int parseStrToInt(String inputString) {
         if (inputString.matches("\\d+")) {
             return Integer.parseInt(inputString);
@@ -31,5 +23,5 @@ public abstract class Operation {
         return -1;
     }
 
-    public abstract void execute(TaskStorage taskList, List<String> args);
+    public abstract List<Task> execute(TaskStorage taskList, List<String> args);
 }
