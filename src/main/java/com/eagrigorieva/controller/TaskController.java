@@ -19,32 +19,30 @@ import java.util.List;
 @RequestMapping("tasks")
 public class TaskController {
     @Autowired
-    private Mapper mapper;
-    @Autowired
     private TaskService taskService;
 
     @PostMapping
     public TaskDto create(@RequestBody CreateRequestDto createRequestDto) {
-        return mapper.mapToTaskDto(taskService.create(createRequestDto.getDescription()));
+        return taskService.create(createRequestDto.getDescription());
     }
 
     @GetMapping
     public List<TaskDto> getList(@RequestParam(value = "printMod", required = false) String printMod) {
-        return mapper.mapToListDto(taskService.getList(printMod));
+        return taskService.getList(printMod);
     }
 
     @DeleteMapping("/{id}")
     public List<TaskDto> deleteTask(@PathVariable(value = "id") String id) {
-        return mapper.mapToListDto(taskService.deleteTask(id));
+        return taskService.deleteTask(id);
     }
 
     @PatchMapping("/{id}")
     public List<TaskDto> editTask(@PathVariable(value = "id") String id, @RequestParam(value = "description") String description) {
-        return mapper.mapToListDto(taskService.editTask(id, description));
+        return taskService.editTask(id, description);
     }
 
     @PostMapping("/{id}/toggle")
     public List<TaskDto> toggleTask(@PathVariable(value = "id") String id) {
-        return mapper.mapToListDto(taskService.toggleTask(id));
+        return taskService.toggleTask(id);
     }
 }
