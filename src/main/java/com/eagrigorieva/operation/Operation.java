@@ -16,12 +16,5 @@ public abstract class Operation {
     public static final String INCORRECT_DESCRIPTION = "Incorrect description";
     public static final String SUCCESS = "SUCCESS";
 
-    protected int parseStrToInt(String inputString) {
-        if (inputString.matches("\\d+")) {
-            return Integer.parseInt(inputString);
-        }
-        return -1;
-    }
-
     public abstract List<Task> execute(TaskStorage taskList, List<String> args);
 }

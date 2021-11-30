@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: todoList
+  version: 1.0.7
+paths:
+  /tasks:
+    get:
+      parameters:
+        - in: query
+          name: printMod
+          schema:
+            type: string
+            enum: [ "ALL", "CREATED", "COMPLETED" ]
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+  /tasks/search:
+    get:
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [ "CREATED", "COMPLETED" ]
