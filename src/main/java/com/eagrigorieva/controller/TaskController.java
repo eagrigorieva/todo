@@ -1,0 +1,50 @@
+package com.eagrigorieva.controller;
+
+import com.eagrigorieva.dto.CreateRequestDto;
+import com.eagrigorieva.dto.TaskDto;
+import com.eagrigorieva.model.Task;
+import com.eagrigorieva.operation.*;
+import com.eagrigorieva.service.TaskService;
+import com.eagrigorieva.storage.TaskStorage;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import com.eagrigorieva.util.Mapper;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+@RestController
+@RequestMapping("tasks")
+public class TaskController {
+    @Autowired
+    private Mapper mapper;
+    @Autowired
+    private TaskService taskService;
+
+    @PostMapping
+    public TaskDto create(@RequestBody CreateRequestDto createRequestDto) {
+        return mapper.mapToTaskDto(taskService.create(createRequestDto.getDescription()));
+    }
+
+    @GetMapping
+    public List<TaskDto> getList(@RequestParam(value = "printMod", required = false) String printMod) {
+        return mapper.mapToListDto(taskService.getList(printMod));
+    }
+
+    @DeleteMapping("/{id}")
+    public List<TaskDto> deleteTask(@PathVariable(value = "id") String id) {
+        return mapper.mapToListDto(taskService.deleteTask(id));
+    }
+
+    @PatchMapping("/{id}")
+    public List<TaskDto> editTask(@PathVariable(value = "id") String id, @RequestParam(value = "description") String description) {
+        return mapper.mapToListDto(taskService.editTask(id, description));
+    }
+
+    @PostMapping("/{id}/toggle")
+    public List<TaskDto> toggleTask(@PathVariable(value = "id") String id) {
+        return mapper.mapToListDto(taskService.toggleTask(id));
+    }
+}

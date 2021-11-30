@@ -15,7 +15,7 @@ public class Mapper {
         dto.setDescription(task.getDescription());
         dto.setTaskStatus(task.getTaskStatus());
         return dto;
-    }//TODO подумать как сделать лучше конструктор?
+    }
 
     public Task mapToTask(TaskDto dto){
         return new Task(dto.getId(), dto.getDescription(), dto.getTaskStatus());

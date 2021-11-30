@@ -17,23 +17,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Task"
-  /tasks/search:
-    get:
-      parameters:
-        - in: query
-          name: query
-          schema:
-            type: string
-      responses:
-        200:
-          description: ""
-          content:
-            application/json:
-              schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Task"
+                $ref: "#/components/schemas/Task"
 components:
   schemas:
     Task:

@@ -22,7 +22,7 @@ public class TaskStorageList implements TaskStorage {
         return taskList.stream()
                 .filter(t -> Objects.equals(t.getId(), id))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(NullPointerException::new);
     }
 
     @Override
