@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class TaskStorageList implements TaskStorage {
@@ -17,8 +18,11 @@ public class TaskStorageList implements TaskStorage {
     }
 
     @Override
-    public Task get(int id) {
-        return taskList.get(id);
+    public Task get(String id) {
+        return taskList.stream()
+                .filter(t -> Objects.equals(t.getId(), id))
+                .findFirst()
+                .orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -27,17 +31,12 @@ public class TaskStorageList implements TaskStorage {
     }
 
     @Override
-    public void remove(int id) {
-        taskList.remove(id);
+    public boolean remove(String id) {
+        return taskList.removeIf(t -> Objects.equals(t.getId(), id));
     }
 
     @Override
     public int size() {
         return taskList.size();
-    }
-
-    @Override
-    public int getId(Task task) {
-        return taskList.indexOf(task);
     }
 }

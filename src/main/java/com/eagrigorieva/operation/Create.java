@@ -5,6 +5,7 @@ import com.eagrigorieva.storage.TaskStorage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,13 +13,17 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
 @Slf4j
 @AllArgsConstructor
-public class Add extends Operation {
+public class Create extends Operation {
 
     @Override
-    public void execute(TaskStorage taskList, List<String> args) {
+    public List<Task> execute(TaskStorage taskList, List<String> args) {
+        List<Task> result = new ArrayList<>();
         String description = args.isEmpty() ? "default" : String.join(" ", args);
-        taskList.add(new Task(UUID.randomUUID().toString(), description, CREATED));
+        Task task = new Task(UUID.randomUUID().toString(), description, CREATED);
+        taskList.add(task);
+        result.add(task);
         log.debug("Task {} description created", description);
         System.out.println(SUCCESS);
+        return result;
     }
 }

@@ -7,13 +7,11 @@ import java.util.List;
 public interface TaskStorage {
     void add(Task task);
 
-    Task get(int id);
+    Task get(String id);
 
     List<Task> getTaskList();
 
-    void remove(int id);
+    boolean remove(String id);
 
     int size();
-
-    int getId(Task task);
 }
