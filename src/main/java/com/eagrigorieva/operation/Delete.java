@@ -21,7 +21,7 @@ public class Delete extends Operation {
             return Collections.emptyList();
 
         }
-        String id = args.get(0);
+        Long id = Long.parseLong(args.get(0));
         if (taskList.remove(id)) {
             log.debug("Task is deleted");
             System.out.println(SUCCESS);

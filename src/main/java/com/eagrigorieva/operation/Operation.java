@@ -1,6 +1,5 @@
 package com.eagrigorieva.operation;
 
-import com.eagrigorieva.dto.TaskDto;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.storage.TaskStorage;
 import lombok.Data;
@@ -16,5 +15,5 @@ public abstract class Operation {
     public static final String INCORRECT_DESCRIPTION = "Incorrect description";
     public static final String SUCCESS = "SUCCESS";
 
-    public abstract List<Task> execute(TaskStorage taskList, List<String> args);
+    public abstract List<Task> execute(TaskStorage taskStorage, List<String> args);
 }

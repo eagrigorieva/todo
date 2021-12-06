@@ -17,10 +17,6 @@ public class Mapper {
         return dto;
     }
 
-    public Task mapToTask(TaskDto dto){
-        return new Task(dto.getId(), dto.getDescription(), dto.getTaskStatus());
-    }
-
     public List<TaskDto> mapToListDto(List<Task> taskList){
         return taskList.stream()
                 .map(this::mapToTaskDto)
