@@ -1,19 +1,27 @@
 package com.eagrigorieva.model;
 
 import com.eagrigorieva.enumeration.TaskStatus;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Entity
+@Table(name = "task")
 public class Task {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String id;
+    @Column(name="description")
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="task_status")
     private TaskStatus taskStatus;
 
     @Override

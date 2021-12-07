@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class TaskDto {
-    private String id;
+    private Long id;
     private String description;
     private TaskStatus taskStatus;
 }

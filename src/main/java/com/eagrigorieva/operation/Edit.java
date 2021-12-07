@@ -23,7 +23,7 @@ public class Edit extends Operation {
             throw new EmptyArgsListException();
         }
 
-        String id = args.get(0);
+        Long id = Long.parseLong(args.get(0));
         String description = args.get(1);
         Task task = taskList.get(id);
 

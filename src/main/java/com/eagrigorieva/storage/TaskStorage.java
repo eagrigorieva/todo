@@ -5,13 +5,13 @@ import com.eagrigorieva.model.Task;
 import java.util.List;
 
 public interface TaskStorage {
-    void add(Task task);
+    void save(Task task);
 
-    Task get(String id);
+    Task get(Long id);
 
     List<Task> getTaskList();
 
-    boolean remove(String id);
+    boolean remove(Long id);
 
     int size();
 }

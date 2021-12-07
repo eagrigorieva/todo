@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
@@ -19,8 +18,10 @@ public class Create extends Operation {
     public List<Task> execute(TaskStorage taskList, List<String> args) {
         List<Task> result = new ArrayList<>();
         String description = args.isEmpty() ? "default" : String.join(" ", args);
-        Task task = new Task(UUID.randomUUID().toString(), description, CREATED);
-        taskList.add(task);
+        Task task = new Task();
+        task.setDescription(description);
+        task.setTaskStatus(CREATED);
+        taskList.save(task);
         result.add(task);
         log.debug("Task {} description created", description);
         System.out.println(SUCCESS);

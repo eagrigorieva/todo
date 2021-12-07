@@ -25,11 +25,12 @@ public class Toggle extends Operation {
             throw new EmptyArgsListException();
         }
 
-        String id = args.get(0);
+        Long id = Long.parseLong(args.get(0));
         Task task = taskList.get(id);
 
         if (task != null) {
             task.setTaskStatus(task.getTaskStatus() == CREATED ? COMPLETED : CREATED);
+            taskList.save(task);
             log.debug("Status changed: {}", task.getTaskStatus().name());
             System.out.println(SUCCESS);
             return Collections.singletonList(task);
