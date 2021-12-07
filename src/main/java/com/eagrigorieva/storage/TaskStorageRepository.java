@@ -1,7 +1,6 @@
 package com.eagrigorieva.storage;
 
 import com.eagrigorieva.model.Task;
-import com.eagrigorieva.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;

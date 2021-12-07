@@ -1,4 +1,4 @@
-package com.eagrigorieva.util;
+package com.eagrigorieva.mapper;
 
 import com.eagrigorieva.dto.TaskDto;
 import com.eagrigorieva.model.Task;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class Mapper {
+public class TaskMapper {
     public TaskDto mapToTaskDto(Task task){
         TaskDto dto = new TaskDto();
         dto.setId(task.getId());

@@ -3,7 +3,7 @@ package com.eagrigorieva.service;
 import com.eagrigorieva.dto.TaskDto;
 import com.eagrigorieva.operation.*;
 import com.eagrigorieva.storage.TaskStorage;
-import com.eagrigorieva.util.Mapper;
+import com.eagrigorieva.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class TaskService {
     @Autowired
     private TaskStorage taskList;
     @Autowired
-    private Mapper mapper;
+    private TaskMapper mapper;
 
     public TaskDto create(String description){
         return mapper.mapToListDto(new Create().execute(taskList, Collections.singletonList(description))).get(0);

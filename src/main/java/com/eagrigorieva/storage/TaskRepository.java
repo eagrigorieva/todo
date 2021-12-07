@@ -1,4 +1,4 @@
-package com.eagrigorieva.repository;
+package com.eagrigorieva.storage;
 
 import com.eagrigorieva.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
