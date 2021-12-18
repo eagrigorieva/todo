@@ -4,6 +4,7 @@ import com.eagrigorieva.dto.CreateRequestTaskDto;
 import com.eagrigorieva.dto.TaskDto;
 import com.eagrigorieva.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class TaskController {
     private TaskService taskService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public TaskDto create(@RequestBody CreateRequestTaskDto request, Authentication authentication) {
         return taskService.create(request.getDescription(), authentication.getName());
     }
