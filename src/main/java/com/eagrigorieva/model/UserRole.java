@@ -18,11 +18,9 @@ public class UserRole implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(name = "code")
     private String code;
 
-    @NotNull
     @OneToMany(mappedBy = "role")
     private List<User> usersList;
 

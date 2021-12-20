@@ -23,20 +23,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min=2, max=50)
     @Column(name = "username", unique = true)
     private String username;
 
-    @NotBlank
-    @Size(min=2, max=100)
     @Column(name = "password")
     private String password;
 
     @OneToMany(mappedBy = "user")
     private List<Task> taskList;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private UserRole role;

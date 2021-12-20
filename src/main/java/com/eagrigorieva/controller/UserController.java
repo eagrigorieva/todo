@@ -6,8 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+@Validated
 @Secured("ROLE_ADMIN")
 @RestController
 @RequestMapping("users")
@@ -17,12 +22,12 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CreateRequestUserDto request, Authentication authentication) {
+    public void create(@Valid @RequestBody CreateRequestUserDto request , Authentication authentication) {
         userService.create(request.getPassword(), request.getUsername(), request.getRole());
     }
 
     @DeleteMapping
-    public void delete(@PathVariable(value = "id") Long id) {
+    public void delete(@NotNull @PathVariable(value = "id") Long id) {
         userService.delete(id);
     }
 }
