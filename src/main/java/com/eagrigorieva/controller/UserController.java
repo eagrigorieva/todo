@@ -10,11 +10,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Validated
-@Secured("ROLE_ADMIN")
 @RestController
+@Secured("ROLE_ADMIN")
 @RequestMapping("users")
 public class UserController {
     @Autowired
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@NotNull @PathVariable(value = "id") Long id) {
+    public void delete(@Min(0) @PathVariable(value = "id") Long id) {
         userService.delete(id);
     }
 }

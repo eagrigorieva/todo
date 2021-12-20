@@ -12,13 +12,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-@Secured({"ROLE_ADMIN", "ROLE_USER"})
+@Validated
 @RestController
 @RequestMapping("tasks")
+@Secured({"ROLE_ADMIN", "ROLE_USER"})
 public class TaskController {
     @Autowired
     private TaskService taskService;
@@ -35,17 +37,17 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@NotNull @PathVariable(value = "id") Long id, Authentication authentication) {
+    public void deleteTask(@Min(0) @PathVariable(value = "id") Long id, Authentication authentication) {
         taskService.deleteTask(id, authentication.getName());
     }
 
     @PatchMapping("/{id}")
-    public TaskDto editTask(@NotNull @PathVariable(value = "id") Long id, @NotBlank @Size(min = 2, max = 100) @RequestParam(value = "description") String description, Authentication authentication) {
+    public TaskDto editTask(@Min(0) @PathVariable(value = "id") Long id, @NotBlank @Size(min = 2, max = 100) @RequestParam(value = "description") String description, Authentication authentication) {
         return taskService.editTask(id, description, authentication.getName());
     }
 
     @PostMapping("/{id}/toggle")
-    public TaskDto toggleTask(@NotNull @PathVariable(value = "id") Long id, Authentication authentication) {
+    public TaskDto toggleTask(@Min(0) @PathVariable(value = "id") Long id, Authentication authentication) {
         return taskService.toggleTask(id, authentication.getName());
     }
 
