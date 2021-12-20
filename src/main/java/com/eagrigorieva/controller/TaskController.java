@@ -30,7 +30,7 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskDto> getList(@NotNull @RequestParam(value = "printMod", required = false) String printMod, Authentication authentication) {
+    public List<TaskDto> getList(@RequestParam(value = "printMod", required = false) String printMod, Authentication authentication) {
         return taskService.getList(printMod, authentication.getName());
     }
 

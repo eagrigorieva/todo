@@ -26,7 +26,7 @@ public class UserController {
         userService.create(request.getPassword(), request.getUsername(), request.getRole());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public void delete(@NotNull @PathVariable(value = "id") Long id) {
         userService.delete(id);
     }
