@@ -1,7 +1,7 @@
 package com.eagrigorieva.mapper;
 
 import com.eagrigorieva.dto.UserDto;
-import com.eagrigorieva.model.Users;
+import com.eagrigorieva.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
-    public UserDto mapToUserDto(Users user) {
+    public UserDto mapToUserDto(User user) {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
@@ -18,7 +18,7 @@ public class UserMapper {
         return dto;
     }
 
-    public List<UserDto> mapToListDto(List<Users> userList) {
+    public List<UserDto> mapToListDto(List<User> userList) {
         return userList.stream()
                 .map(this::mapToUserDto)
                 .collect(Collectors.toList());

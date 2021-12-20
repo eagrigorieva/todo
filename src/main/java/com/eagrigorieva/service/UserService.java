@@ -3,7 +3,7 @@ package com.eagrigorieva.service;
 import com.eagrigorieva.exception.EntityNotFoundException;
 import com.eagrigorieva.mapper.UserMapper;
 import com.eagrigorieva.model.UserRole;
-import com.eagrigorieva.model.Users;
+import com.eagrigorieva.model.User;
 import com.eagrigorieva.storage.UserRepository;
 import com.eagrigorieva.storage.UserRoleRepository;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
 
     public void create(String password, String username, String roleCode) {
         UserRole userRole = userRoleRepository.findByCode(roleCode);
-        Users user = new Users();
+        User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setRole(userRole);
@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void delete(Long id) {
-        Users user = userRepository.findById(id).orElse(null);
+        User user = userRepository.findById(id).orElse(null);
         if (user == null) {
             log.error("User not found");
             System.out.println("User not found");

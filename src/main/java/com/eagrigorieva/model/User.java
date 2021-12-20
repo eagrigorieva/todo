@@ -2,10 +2,14 @@ package com.eagrigorieva.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -13,21 +17,26 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class Users implements UserDetails {
+@Table(name = "\"user\"")
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(min=2, max=50)
     @Column(name = "username", unique = true)
     private String username;
 
+    @NotBlank
+    @Size(min=2, max=100)
     @Column(name = "password")
     private String password;
 
     @OneToMany(mappedBy = "user")
     private List<Task> taskList;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private UserRole role;

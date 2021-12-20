@@ -6,7 +6,7 @@ import com.eagrigorieva.enumeration.TaskStatus;
 import com.eagrigorieva.exception.EntityNotFoundException;
 import com.eagrigorieva.mapper.TaskMapper;
 import com.eagrigorieva.model.Task;
-import com.eagrigorieva.model.Users;
+import com.eagrigorieva.model.User;
 import com.eagrigorieva.storage.TaskRepository;
 import com.eagrigorieva.storage.UserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -30,7 +30,7 @@ public class TaskService {
     private UserRepository userRepository;
 
     public TaskDto create(String description, String userName) {
-        Users fondedUsersInDB = userRepository.findByUsername(userName);
+        User fondedUsersInDB = userRepository.findByUsername(userName);
         Task task = new Task();
         task.setDescription(description);
         task.setTaskStatus(CREATED);
@@ -46,7 +46,7 @@ public class TaskService {
     }
 
     public void deleteTask(Long id, String userName) {
-        Users fondedUsersInDB = userRepository.findByUsername(userName);
+        User fondedUsersInDB = userRepository.findByUsername(userName);
         Task task = taskRepository.findByIdAndUser(id, fondedUsersInDB).orElse(null);
         if (task == null) {
             log.error("Task not found");
@@ -60,11 +60,12 @@ public class TaskService {
     }
 
     public TaskDto editTask(Long id, String description, String userName) {
-        Users fondedUsersInDB = userRepository.findByUsername(userName);
+        User fondedUsersInDB = userRepository.findByUsername(userName);
         Task task = taskRepository.findByIdAndUser(id, fondedUsersInDB).orElse(null);
 
         if (task != null) {
             task.setDescription(description);
+            taskRepository.save(task);
             System.out.println("SUCCESS");
             log.debug("Task is edited");
             return mapper.mapToTaskDto(task);
@@ -82,7 +83,7 @@ public class TaskService {
     }
 
     public TaskDto toggleTask(Long id, String userName) {
-        Users fondedUsersInDB = userRepository.findByUsername(userName);
+        User fondedUsersInDB = userRepository.findByUsername(userName);
         Task task = taskRepository.findByIdAndUser(id, fondedUsersInDB).orElse(null);
 
         if (task != null) {
@@ -101,7 +102,7 @@ public class TaskService {
 
     private List<Task> getTaskList(String printMod, String userName) {
         PrintMod modCommand = PrintMod.getPrintMod(printMod);
-        Users user = userRepository.findByUsername(userName);
+        User user = userRepository.findByUsername(userName);
         switch (modCommand) {
             case ALL:
                 return taskRepository.findAllByUser(user);
@@ -113,7 +114,7 @@ public class TaskService {
         }
     }
 
-    private List<Task> getTaskListByStatus(Users user, TaskStatus status) {
+    private List<Task> getTaskListByStatus(User user, TaskStatus status) {
         return taskRepository.findAllByUser(user)
                 .stream()
                 .filter(t -> t.getTaskStatus() == status)
