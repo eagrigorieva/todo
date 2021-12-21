@@ -3,8 +3,12 @@ package com.eagrigorieva.model;
 import com.eagrigorieva.enumeration.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
@@ -17,12 +21,15 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="task_status")
+    @Column(name = "task_status")
     private TaskStatus taskStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public String toString() {
