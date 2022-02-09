@@ -34,10 +34,7 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-  allure:
-    name: Generate Allure Report
-    runs-on: ubuntu-latest
-    steps:
+
       - uses: actions/checkout@v2
 
       - name: Get Allure history
