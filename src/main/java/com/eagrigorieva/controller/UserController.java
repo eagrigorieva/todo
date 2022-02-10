@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Validated
 @RestController
@@ -23,7 +22,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@Valid @RequestBody CreateRequestUserDto request , Authentication authentication) {
+    public void create(@Valid @RequestBody CreateRequestUserDto request, Authentication authentication) {
         userService.create(request.getPassword(), request.getUsername(), request.getRole());
     }
 
