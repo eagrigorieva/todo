@@ -28,7 +28,6 @@ import static com.eagrigorieva.step.TodoSteps.getTask;
 import static com.eagrigorieva.step.TodoSteps.getUser;
 import static org.junit.Assert.assertEquals;
 
-@Log4j2
 @RunWith(MockitoJUnitRunner.class)
 public class TodoTaskServiceTests {
     private String userName;
@@ -39,8 +38,6 @@ public class TodoTaskServiceTests {
     private String description;
     private TaskService taskService;
 
-    @Captor
-    private ArgumentCaptor<Task> taskCaptor;
     private final TaskMapper mapperMock = new TaskMapper();
     @Mock
     private UserRepository userRepositoryMock;
@@ -63,14 +60,13 @@ public class TodoTaskServiceTests {
     @Test
     public void successCreateTest() {
         task = new Task();
-        taskCaptor = ArgumentCaptor.forClass(Task.class);
         Mockito.when(userRepositoryMock.findByUsername(userName)).thenReturn(user);
 
         TaskDto result = taskService.create(description, userName);
 
         assertEquals(description, result.getDescription());
         assertEquals(TaskStatus.CREATED, result.getTaskStatus());
-        Mockito.verify(taskRepositoryMock, Mockito.times(1)).save(taskCaptor.capture());
+        Mockito.verify(taskRepositoryMock, Mockito.times(1)).save(Mockito.any());
         Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
     }
 

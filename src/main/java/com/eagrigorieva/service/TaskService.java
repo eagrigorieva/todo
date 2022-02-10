@@ -23,7 +23,6 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 
 @Log4j2
 @Setter
-@Getter
 @Component
 public class TaskService {
     @Autowired

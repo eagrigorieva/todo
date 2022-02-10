@@ -23,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static com.eagrigorieva.step.TodoSteps.getUser;
 import static org.junit.Assert.assertEquals;
 
-@Log4j2
 @RunWith(MockitoJUnitRunner.class)
 public class TodoUserServiceTests {
     private String userName;
@@ -31,8 +30,6 @@ public class TodoUserServiceTests {
     private Long id;
     private User user;
     private UserService userService;
-    @Captor
-    private ArgumentCaptor<User> userCaptor;
     @Mock
     private UserMapper mapperMock;
     @Mock
@@ -58,11 +55,9 @@ public class TodoUserServiceTests {
 
     @Test
     public void successCreateTest() {
-        userCaptor = ArgumentCaptor.forClass(User.class);
-
         userService.create(password, userName, "1");
 
-        Mockito.verify(userRepositoryMock, Mockito.times(1)).save(userCaptor.capture());
+        Mockito.verify(userRepositoryMock, Mockito.times(1)).save(Mockito.any());
         Mockito.verify(userRoleRepositoryMock, Mockito.times(1)).findByCode("1");
     }
 

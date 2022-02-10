@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Log4j2
-@Getter
 @Setter
 @Component
 public class UserService implements UserDetailsService {
