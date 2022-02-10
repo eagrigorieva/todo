@@ -31,7 +31,7 @@ import static com.eagrigorieva.step.TodoSteps.getUser;
 import static org.junit.Assert.assertEquals;
 
 @Feature(value = "МКС: todoList")
-@Story(value = "Проверки методов TaskService")
+@Story(value = "Проверки методов TaskService ")
 @Log4j2
 @RunWith(MockitoJUnitRunner.class)
 public class TodoTaskServiceTests {
