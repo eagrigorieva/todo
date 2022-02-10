@@ -37,3 +37,10 @@ jobs:
           name: coverage_info
           path: target/site/jacoco
           retention-days: 1
+
+      - name: Upload Artifact with test pass info
+        uses: actions/upload-artifact@v2
+        with:
+          name: pass_info
+          path: target/surefire-reports
+          retention-days: 1
