@@ -25,8 +25,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Run tests phase
+        run: mvn test
+
       - name: Run package phase
-        run: mvn -B clean package
+        run: mvn package -DskipTests
 
       - name: Upload Artifact with test coverage info
         uses: actions/upload-artifact@v2
