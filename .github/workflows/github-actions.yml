@@ -34,6 +34,6 @@ jobs:
       - name: Upload Artifact with test coverage info
         uses: actions/upload-artifact@v2
         with:
-          name: jacoco
-          path: target/site/jacoco/index.html
+          name: coverage_info
+          path: target/site/jacoco
           retention-days: 1
