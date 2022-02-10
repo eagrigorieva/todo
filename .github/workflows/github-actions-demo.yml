@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ featuretask10 ]
+    branches: [ feature/task-10 ]
   pull_request:
     branches: [ master ]
 
@@ -48,7 +48,7 @@ jobs:
           path: gh-pages
 
       - name: Allure Report action
-        uses: eagrigorieva/todo@featuretask10
+        uses: simple-elf/allure-report-action@master
         if: always()
         #id: allure-report
         with:
