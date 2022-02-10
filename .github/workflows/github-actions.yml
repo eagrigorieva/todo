@@ -35,5 +35,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: jacoco
-          path: target\site\jacoco\index.html
+          path: target/site/jacoco/index.html
           retention-days: 1
