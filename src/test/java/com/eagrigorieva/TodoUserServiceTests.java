@@ -6,8 +6,6 @@ import com.eagrigorieva.model.User;
 import com.eagrigorieva.service.UserService;
 import com.eagrigorieva.storage.UserRepository;
 import com.eagrigorieva.storage.UserRoleRepository;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
@@ -25,8 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static com.eagrigorieva.step.TodoSteps.getUser;
 import static org.junit.Assert.assertEquals;
 
-@Feature(value = "МКС: todoList")
-@Story(value = "Проверки методов UserService")
 @Log4j2
 @RunWith(MockitoJUnitRunner.class)
 public class TodoUserServiceTests {
