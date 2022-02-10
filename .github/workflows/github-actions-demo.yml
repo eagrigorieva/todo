@@ -48,7 +48,7 @@ jobs:
           path: gh-pages
 
       - name: Allure Report action
-        uses: simple-elf/allure-report-action@master
+        uses: eagrigorieva/todo@feature/task-10
         if: always()
         #id: allure-report
         with:
