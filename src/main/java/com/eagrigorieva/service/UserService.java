@@ -2,10 +2,12 @@ package com.eagrigorieva.service;
 
 import com.eagrigorieva.exception.EntityNotFoundException;
 import com.eagrigorieva.mapper.UserMapper;
-import com.eagrigorieva.model.UserRole;
 import com.eagrigorieva.model.User;
+import com.eagrigorieva.model.UserRole;
 import com.eagrigorieva.storage.UserRepository;
 import com.eagrigorieva.storage.UserRoleRepository;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Log4j2
+@Setter
 @Component
 public class UserService implements UserDetailsService {
     @Autowired
