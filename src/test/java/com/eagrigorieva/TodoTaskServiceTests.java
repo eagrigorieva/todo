@@ -9,16 +9,13 @@ import com.eagrigorieva.model.User;
 import com.eagrigorieva.service.TaskService;
 import com.eagrigorieva.storage.TaskRepository;
 import com.eagrigorieva.storage.UserRepository;
-import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;

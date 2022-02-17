@@ -3,19 +3,16 @@ package com.eagrigorieva;
 import com.eagrigorieva.exception.EntityNotFoundException;
 import com.eagrigorieva.mapper.UserMapper;
 import com.eagrigorieva.model.User;
-import com.eagrigorieva.service.UserService;
+import com.eagrigorieva.service.UserServiceImpl;
 import com.eagrigorieva.storage.UserRepository;
 import com.eagrigorieva.storage.UserRoleRepository;
-import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +26,7 @@ public class TodoUserServiceTests {
     private String password;
     private Long id;
     private User user;
-    private UserService userService;
+    private UserServiceImpl userService;
     @Mock
     private UserMapper mapperMock;
     @Mock
@@ -45,7 +42,7 @@ public class TodoUserServiceTests {
         password = RandomStringUtils.randomNumeric(4);
         id = Long.parseLong(RandomStringUtils.randomNumeric(4));
 
-        userService = new UserService();
+        userService = new UserServiceImpl();
 
         userService.setUserRepository(userRepositoryMock);
         userService.setUserRoleRepository(userRoleRepositoryMock);

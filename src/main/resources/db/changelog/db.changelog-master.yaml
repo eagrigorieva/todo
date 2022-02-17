@@ -5,6 +5,48 @@ databaseChangeLog:
       author: eagrigorieva
       changes:
         - createTable:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: code
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_role_id
+                    references: user_role(id)
+                    nullable: false
+        - createTable:
             tableName: task
             columns:
               - column:
@@ -21,6 +63,13 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: task_status
-                  type: varchar(255)
+                  type: integer
                   constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_user_id
+                    references: user(id)
                     nullable: false
