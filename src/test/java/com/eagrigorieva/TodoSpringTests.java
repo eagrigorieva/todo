@@ -1,5 +1,7 @@
 package com.eagrigorieva;
 
+import com.eagrigorieva.service.TaskService;
+import com.eagrigorieva.service.TaskServiceImpl;
 import com.eagrigorieva.service.UserService;
 import com.eagrigorieva.service.UserServiceImpl;
 import org.junit.Assert;
@@ -16,13 +18,20 @@ public class TodoSpringTests {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TaskService taskService;
+
     @Test
     public void contextLoads() {
     }
 
-    //TODO сделать для тасок такой же геморрой
     @Test
-    public void checkSomething() {
+    public void checkUserService() {
         Assert.assertTrue(userService instanceof UserServiceImpl);
+    }
+
+    @Test
+    public void checkTaskService() {
+        Assert.assertTrue(taskService instanceof TaskServiceImpl);
     }
 }

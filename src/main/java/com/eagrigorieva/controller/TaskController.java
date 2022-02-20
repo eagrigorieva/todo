@@ -2,7 +2,7 @@ package com.eagrigorieva.controller;
 
 import com.eagrigorieva.dto.CreateRequestTaskDto;
 import com.eagrigorieva.dto.TaskDto;
-import com.eagrigorieva.service.TaskService;
+import com.eagrigorieva.service.TaskServiceImpl;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ import java.util.List;
 @Secured({"ROLE_ADMIN", "ROLE_USER"})
 public class TaskController {
     @Autowired
-    private TaskService taskService;
+    private TaskServiceImpl taskService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

@@ -6,7 +6,7 @@ import com.eagrigorieva.exception.EntityNotFoundException;
 import com.eagrigorieva.mapper.TaskMapper;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.model.User;
-import com.eagrigorieva.service.TaskService;
+import com.eagrigorieva.service.TaskServiceImpl;
 import com.eagrigorieva.storage.TaskRepository;
 import com.eagrigorieva.storage.UserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -33,7 +33,7 @@ public class TodoTaskServiceTests {
     private User user;
     private Task task;
     private String description;
-    private TaskService taskService;
+    private TaskServiceImpl taskService;
 
     private final TaskMapper mapperMock = new TaskMapper();
     @Mock
@@ -48,7 +48,7 @@ public class TodoTaskServiceTests {
         id = Long.parseLong(RandomStringUtils.randomNumeric(4));
         user = getUser(id, userName, password);
         description = RandomStringUtils.randomAlphabetic(10);
-        taskService = new TaskService();
+        taskService = new TaskServiceImpl();
         taskService.setUserRepository(userRepositoryMock);
         taskService.setTaskRepository(taskRepositoryMock);
         taskService.setMapper(mapperMock);
