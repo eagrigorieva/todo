@@ -44,6 +44,7 @@ public class TaskServiceImpl implements TaskService {
         return mapper.mapToTaskDto(task);
     }
 
+    @Override
     public List<TaskDto> getList(String printMod, String userName) {
         return mapper.mapToListDto(getTaskList(printMod, userName));
     }
@@ -63,6 +64,7 @@ public class TaskServiceImpl implements TaskService {
 
     }
 
+    @Override
     public TaskDto editTask(Long id, String description, String userName) {
         User fondedUsersInDB = userRepository.findByUsername(userName);
         Task task = taskRepository.findByIdAndUser(id, fondedUsersInDB).orElse(null);
@@ -82,10 +84,12 @@ public class TaskServiceImpl implements TaskService {
 
     }
 
+    @Override
     public List<TaskDto> getAllTasks() {
         return mapper.mapToListDto(taskRepository.findAll());
     }
 
+    @Override
     public TaskDto toggleTask(Long id, String userName) {
         User fondedUsersInDB = userRepository.findByUsername(userName);
         Task task = taskRepository.findByIdAndUser(id, fondedUsersInDB).orElse(null);
