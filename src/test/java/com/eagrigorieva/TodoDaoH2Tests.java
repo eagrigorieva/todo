@@ -7,18 +7,12 @@ import com.eagrigorieva.model.UserRole;
 import com.eagrigorieva.storage.TaskRepository;
 import com.eagrigorieva.storage.UserRepository;
 import com.eagrigorieva.storage.UserRoleRepository;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +22,7 @@ import java.util.Optional;
 public class TodoDaoH2Tests {
 
     public static final String DEFAULT_CODE = "1";
-
-    private String name;
+    public static final String DEFAULT_NAME = "mars";
 
     @Autowired
     private UserRepository userRepository;
@@ -40,63 +33,59 @@ public class TodoDaoH2Tests {
     @Autowired
     private TaskRepository taskRepository;
 
-    @Before
-    public void precondition() {
-        name = RandomStringUtils.randomAlphabetic(10);
+    @Test
+    public void emptyStorageTest() {
+        Assert.assertEquals(0, userRepository.findAll().size());
     }
 
     @Test
     public void addUserRoleTest() {
-        addUserRole(DEFAULT_CODE);
         UserRole userRole = addUserRole("2");
-        Assert.assertEquals(userRole.getId(), userRoleRepository.findByCode("2").getId());
+        Assert.assertEquals(userRole, userRoleRepository.findByCode("2"));
     }
 
     @Test
     public void addUserTest() {
-        User user = addUser(RandomStringUtils.randomAlphabetic(10), DEFAULT_CODE);
-        Assert.assertTrue(userRepository.existsById(user.getId()));
+        addUserRole(DEFAULT_CODE);
+        addUser(DEFAULT_NAME, DEFAULT_CODE);
+        Assert.assertEquals(1, userRepository.findAll().size());
     }
 
     @Test
     public void deletedUserTest() {
-        User user = addUser(name, DEFAULT_CODE);
+        addUserRole(DEFAULT_CODE);
+        User user = addUser(DEFAULT_NAME, DEFAULT_CODE);
         userRepository.delete(user);
 
-        Assert.assertFalse(userRepository.existsById(user.getId()));
+        Assert.assertEquals(0, userRepository.findAll().size());
     }
 
     @Test
     public void createTaskTest() {
-        User user = addUser(name, DEFAULT_CODE);
-        Task task = addTask(user);
+        addUserRole(DEFAULT_CODE);
+        User user = addUser(DEFAULT_NAME, DEFAULT_CODE);
+        addTask(user);
 
-        Assert.assertTrue(taskRepository.existsById(task.getId()));
-    }
-
-    @Test
-    public void deleteTaskTest() {
-        User user = addUser(name, DEFAULT_CODE);
-        Task task = addTask(user);
-        taskRepository.delete(task);
-        Assert.assertFalse(taskRepository.existsById(task.getId()));
+        Assert.assertEquals(1, taskRepository.findAll().size());
     }
 
     @Test
     public void findTaskForUserTest() {
-        User user = addUser(name, DEFAULT_CODE);
+        addUserRole(DEFAULT_CODE);
+        User user = addUser(DEFAULT_NAME, DEFAULT_CODE);
         Task task = addTask(user);
 
         List<Task> foundedTasks = taskRepository.findAllByUser(user);
 
         Assert.assertEquals(1, foundedTasks.size());
-        Assert.assertEquals(foundedTasks.get(0).getId(), task.getId());
+        Assert.assertEquals(foundedTasks.get(0), task);
     }
 
     @Test
     public void findTaskForOtherUserTest() {
-        User user = addUser(name, DEFAULT_CODE);
-        User otherUser = addUser(name + "1", DEFAULT_CODE);
+        addUserRole(DEFAULT_CODE);
+        User user = addUser(DEFAULT_NAME, DEFAULT_CODE);
+        User otherUser = addUser(DEFAULT_NAME + "1", DEFAULT_CODE);
         addTask(user);
 
         List<Task> foundedTasks = taskRepository.findAllByUser(otherUser);
@@ -106,7 +95,8 @@ public class TodoDaoH2Tests {
 
     @Test
     public void findTaskByUserAndTaskIdTest() {
-        User user = addUser(name, DEFAULT_CODE);
+        addUserRole(DEFAULT_CODE);
+        User user = addUser(DEFAULT_NAME, DEFAULT_CODE);
         Task task = addTask(user);
 
         Optional<Task> foundedTask = taskRepository.findByIdAndUser(task.getId(), user);
@@ -116,8 +106,9 @@ public class TodoDaoH2Tests {
 
     @Test
     public void findTaskByOtherUserAndTaskIdTest() {
-        User user = addUser(name, DEFAULT_CODE);
-        User otherUser = addUser(name + "1", DEFAULT_CODE);
+        addUserRole(DEFAULT_CODE);
+        User user = addUser(DEFAULT_NAME, DEFAULT_CODE);
+        User otherUser = addUser(DEFAULT_NAME + "1", DEFAULT_CODE);
         Task task = addTask(user);
 
         Optional<Task> foundedTask = taskRepository.findByIdAndUser(task.getId(), otherUser);
@@ -127,10 +118,11 @@ public class TodoDaoH2Tests {
 
     @Test
     public void findTaskByUserAndOtherTaskIdTest() {
-        User user = addUser(name, DEFAULT_CODE);
+        addUserRole(DEFAULT_CODE);
+        User user = addUser(DEFAULT_NAME, DEFAULT_CODE);
         addTask(user);
 
-        User otherUser = addUser(name + "1", DEFAULT_CODE);
+        User otherUser = addUser(DEFAULT_NAME + "1", DEFAULT_CODE);
         Task otherTask = addTask(otherUser);
 
         Optional<Task> foundedTask = taskRepository.findByIdAndUser(otherTask.getId(), user);
