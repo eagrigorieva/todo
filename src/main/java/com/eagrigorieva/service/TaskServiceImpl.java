@@ -4,16 +4,27 @@ import com.eagrigorieva.dto.TaskDto;
 import com.eagrigorieva.enumeration.PrintMod;
 import com.eagrigorieva.enumeration.TaskStatus;
 import com.eagrigorieva.exception.EntityNotFoundException;
+import com.eagrigorieva.io.TaskIo;
 import com.eagrigorieva.mapper.TaskMapper;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.model.User;
 import com.eagrigorieva.storage.TaskRepository;
 import com.eagrigorieva.storage.UserRepository;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +41,8 @@ public class TaskServiceImpl implements TaskService {
     private TaskMapper mapper;
     @Autowired
     private UserRepository userRepository;
+    @Value("${integration.url}")
+    private String integrationUrl;
 
     @Override
     public TaskDto create(String description, String userName) {
@@ -47,6 +60,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<TaskDto> getList(String printMod, String userName) {
         return mapper.mapToListDto(getTaskList(printMod, userName));
+    }
+
+    @Override
+    public List<TaskDto> getIoList(boolean isAll) {
+        return mapper.mapIoToListDto(getTaskIoList(isAll));
     }
 
     @Override
@@ -127,5 +145,15 @@ public class TaskServiceImpl implements TaskService {
                 .stream()
                 .filter(t -> t.getTaskStatus() == status)
                 .collect(Collectors.toList());
+    }
+
+    @SneakyThrows
+    private List<TaskIo> getTaskIoList(boolean isAll) {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpGet httpget = new HttpGet(integrationUrl + "/customer/tasks?isAll=" + isAll);
+        CloseableHttpResponse response = httpclient.execute(httpget);
+        String body = EntityUtils.toString(response.getEntity());
+        Type listType = new TypeToken<List<TaskIo>>(){}.getType();
+        return new Gson().fromJson(body, listType);
     }
 }
