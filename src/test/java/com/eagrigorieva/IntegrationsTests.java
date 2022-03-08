@@ -34,7 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 public class IntegrationsTests {
-    public static final String BASE_WIREMOCK_URL = "http://localhost:8089";
     @Autowired
     private WebApplicationContext context;
 
