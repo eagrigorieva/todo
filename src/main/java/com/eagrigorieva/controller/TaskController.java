@@ -30,6 +30,14 @@ public class TaskController {
         return taskService.create(request.getDescription(), authentication.getName());
     }
 
+    @GetMapping("/io")
+    public List<TaskDto> getIoList(@RequestParam(value = "isAll", required = false) Boolean isAll) {
+        if (isAll == null){
+            return taskService.getIoList(false);
+        }
+        return taskService.getIoList(isAll);
+    }
+
     @GetMapping
     public List<TaskDto> getList(@RequestParam(value = "printMod", required = false) String printMod, Authentication authentication) {
         return taskService.getList(printMod, authentication.getName());

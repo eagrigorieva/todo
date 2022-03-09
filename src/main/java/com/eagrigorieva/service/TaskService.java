@@ -9,6 +9,8 @@ public interface TaskService {
 
     List<TaskDto> getList(String printMod, String userName);
 
+    List<TaskDto> getIoList(boolean isAll);
+
     void deleteTask(Long id, String userName);
 
     TaskDto editTask(Long id, String description, String userName);
@@ -16,4 +18,5 @@ public interface TaskService {
     List<TaskDto> getAllTasks();
 
     TaskDto toggleTask(Long id, String userName);
+
 }
