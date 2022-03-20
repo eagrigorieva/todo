@@ -87,6 +87,15 @@ databaseChangeLog:
                   name: code
                   value: ADMIN
         - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: code
+                  value: USER
+        - insert:
             tableName: user
             columns:
               - column:

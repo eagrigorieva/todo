@@ -9,14 +9,12 @@ public interface TaskService {
 
     List<TaskDto> getList(String printMod, String userName);
 
-    List<TaskDto> getIoList(boolean isAll);
+    void deleteTask(String id, String userName);
 
-    void deleteTask(Long id, String userName);
-
-    TaskDto editTask(Long id, String description, String userName);
+    TaskDto editTask(String id, String description, String userName);
 
     List<TaskDto> getAllTasks();
 
-    TaskDto toggleTask(Long id, String userName);
+    TaskDto toggleTask(String id, String userName);
 
 }

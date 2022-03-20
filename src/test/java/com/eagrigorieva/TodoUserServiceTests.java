@@ -3,7 +3,7 @@ package com.eagrigorieva;
 import com.eagrigorieva.exception.EntityNotFoundException;
 import com.eagrigorieva.mapper.UserMapper;
 import com.eagrigorieva.model.User;
-import com.eagrigorieva.service.UserServiceImpl;
+import com.eagrigorieva.service.impl.UserServiceImpl;
 import com.eagrigorieva.storage.UserRepository;
 import com.eagrigorieva.storage.UserRoleRepository;
 import org.apache.commons.lang3.RandomStringUtils;

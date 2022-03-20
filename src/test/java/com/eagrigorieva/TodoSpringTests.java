@@ -1,9 +1,9 @@
 package com.eagrigorieva;
 
 import com.eagrigorieva.service.TaskService;
-import com.eagrigorieva.service.TaskServiceImpl;
+import com.eagrigorieva.service.impl.TaskServiceImpl;
 import com.eagrigorieva.service.UserService;
-import com.eagrigorieva.service.UserServiceImpl;
+import com.eagrigorieva.service.impl.UserServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
