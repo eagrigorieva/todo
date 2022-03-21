@@ -1,12 +1,12 @@
 [
   {
-    "id":112,
-    "description":"МАРСИЩЩЕ",
-    "completed":false
+    "id": "A3",
+    "description": "MarsTest",
+    "taskStatus": false
   },
   {
-    "id":113,
-    "description":"ПЕРСИЩЩЕ",
-    "completed":true
+    "id": "A4",
+    "description": "PersTest",
+    "taskStatus": true
   }
 ]

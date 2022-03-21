@@ -1,11 +1,18 @@
 package com.eagrigorieva;
 
+import com.eagrigorieva.dto.IntegrationTaskDto;
+import com.eagrigorieva.dto.TaskDto;
+import com.eagrigorieva.enumeration.PrintMod;
+import com.eagrigorieva.integration.IntegrationTaskClient;
+import com.eagrigorieva.mapper.IntegrationTaskMapper;
+import com.eagrigorieva.model.User;
+import com.eagrigorieva.service.impl.IntegrationTaskService;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import lombok.var;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,9 +28,15 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.List;
+
+import static com.eagrigorieva.enumeration.TaskStatus.COMPLETED;
+import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 import static com.github.tomakehurst.wiremock.client.WireMock.ok;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,6 +49,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class IntegrationsTests {
     @Autowired
     private WebApplicationContext context;
+    @Autowired
+    private IntegrationTaskService integrationTaskService;
 
     private MockMvc mvc;
 
@@ -53,56 +68,41 @@ public class IntegrationsTests {
     }
 
     @Test
-    public void successTrueTest() throws Exception {
+    public void successTrueTest() {
         stubFor(WireMock.get("/customer/tasks?isAll=true")
                 .willReturn(ok()
                         .withHeader("Content-Type", "application/json")
                         .withBodyFile("getTasksIsAllTrue.json")
                 ));
 
-        mvc.perform(MockMvcRequestBuilders.get("/tasks/io?isAll=true")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", notNullValue()))
-                .andExpect(jsonPath("$[0].description", notNullValue()))
-                .andExpect(jsonPath("$[0].taskStatus", is("CREATED")))
-                .andExpect(jsonPath("$[1].id", notNullValue()))
-                .andExpect(jsonPath("$[1].description", notNullValue()))
-                .andExpect(jsonPath("$[1].taskStatus", is("COMPLETED")));
+        List<TaskDto> dtos = integrationTaskService.getList(PrintMod.ALL.name(), null);
+
+        assertEquals(2, dtos.size());
+        TaskDto taskOne = dtos.get(0);
+        assertEquals(CREATED, taskOne.getTaskStatus());
+        assertEquals("MarsTest", taskOne.getDescription());
+        assertEquals("I-A3", taskOne.getId());
+
+        TaskDto taskTwo = dtos.get(1);
+        assertEquals(COMPLETED, taskTwo.getTaskStatus());
+        assertEquals("PersTest", taskTwo.getDescription());
+        assertEquals("I-A4", taskTwo.getId());
     }
 
     @Test
-    public void successFalseTest() throws Exception {
+    public void successFalseTest() {
         stubFor(WireMock.get("/customer/tasks?isAll=false")
                 .willReturn(ok()
                         .withHeader("Content-Type", "application/json")
                         .withBodyFile("getTasksIsAllFalse.json")
                 ));
 
-        mvc.perform(MockMvcRequestBuilders.get("/tasks/io?isAll=false")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id", notNullValue()))
-                .andExpect(jsonPath("$[0].description", notNullValue()))
-                .andExpect(jsonPath("$[0].taskStatus", is("CREATED")));
-    }
+        List<TaskDto> dtos = integrationTaskService.getList(PrintMod.CREATED.name(), null);
 
-    @Test
-    public void successWithoutFlagTest() throws Exception {
-        stubFor(WireMock.get("/customer/tasks?isAll=false")
-                .willReturn(ok()
-                        .withHeader("Content-Type", "application/json")
-                        .withBodyFile("getTasksIsAllFalse.json")
-                ));
-
-        mvc.perform(MockMvcRequestBuilders.get("/tasks/io")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id", notNullValue()))
-                .andExpect(jsonPath("$[0].description", notNullValue()))
-                .andExpect(jsonPath("$[0].taskStatus", is("CREATED")));
+        assertEquals(1, dtos.size());
+        TaskDto taskOne = dtos.get(0);
+        assertEquals(CREATED, taskOne.getTaskStatus());
+        assertEquals("MarsTest", taskOne.getDescription());
+        assertEquals("I-A3", taskOne.getId());
     }
 }
