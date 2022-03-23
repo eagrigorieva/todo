@@ -2,7 +2,7 @@ package com.eagrigorieva.controller;
 
 import com.eagrigorieva.dto.CreateRequestTaskDto;
 import com.eagrigorieva.dto.TaskDto;
-import com.eagrigorieva.service.TaskService;
+import com.eagrigorieva.service.CompositeTaskService;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,20 +22,12 @@ import java.util.List;
 @Secured({"ROLE_ADMIN", "ROLE_USER"})
 public class TaskController {
     @Autowired
-    private TaskService taskService;
+    private CompositeTaskService taskService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TaskDto create(@Valid @RequestBody CreateRequestTaskDto request, Authentication authentication) {
         return taskService.create(request.getDescription(), authentication.getName());
-    }
-
-    @GetMapping("/io")
-    public List<TaskDto> getIoList(@RequestParam(value = "isAll", required = false) Boolean isAll) {
-        if (isAll == null){
-            return taskService.getIoList(false);
-        }
-        return taskService.getIoList(isAll);
     }
 
     @GetMapping
@@ -44,17 +36,17 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@Min(0) @PathVariable(value = "id") Long id, Authentication authentication) {
+    public void deleteTask(@PathVariable(value = "id") String id, Authentication authentication) {
         taskService.deleteTask(id, authentication.getName());
     }
 
     @PatchMapping("/{id}")
-    public TaskDto editTask(@Min(0) @PathVariable(value = "id") Long id, @NotBlank @Size(min = 2, max = 100) @RequestParam(value = "description") String description, Authentication authentication) {
+    public TaskDto editTask(@PathVariable(value = "id") String id, @NotBlank @Size(min = 2, max = 100) @RequestParam(value = "description") String description, Authentication authentication) {
         return taskService.editTask(id, description, authentication.getName());
     }
 
     @PostMapping("/{id}/toggle")
-    public TaskDto toggleTask(@Min(0) @PathVariable(value = "id") Long id, Authentication authentication) {
+    public TaskDto toggleTask(@PathVariable(value = "id") String id, Authentication authentication) {
         return taskService.toggleTask(id, authentication.getName());
     }
 

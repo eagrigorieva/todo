@@ -1,9 +1,10 @@
-package com.eagrigorieva.service;
+package com.eagrigorieva.service.impl;
 
 import com.eagrigorieva.exception.EntityNotFoundException;
 import com.eagrigorieva.mapper.UserMapper;
 import com.eagrigorieva.model.User;
 import com.eagrigorieva.model.UserRole;
+import com.eagrigorieva.service.UserService;
 import com.eagrigorieva.storage.UserRepository;
 import com.eagrigorieva.storage.UserRoleRepository;
 import lombok.Setter;

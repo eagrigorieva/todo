@@ -4,8 +4,8 @@ import com.eagrigorieva.enumeration.TaskStatus;
 import lombok.Data;
 
 @Data
-public class TaskDto {
+public class IntegrationTaskDto {
     private String id;
     private String description;
-    private TaskStatus taskStatus;
+    private boolean taskStatus;
 }

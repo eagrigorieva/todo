@@ -73,3 +73,40 @@ databaseChangeLog:
                     foreignKeyName: fk_user_id
                     references: user(id)
                     nullable: false
+  - changeSet:
+      id: 2
+      author: eagrigorieva
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: code
+                  value: ADMIN
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: code
+                  value: USER
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: password
+                  value: $2a$10$ky27V3LX/xtIeWRqrKpHe.OpTBqgdPq5LRiApFvJiYFyRCxWCLZa6
+              - column:
+                  name: username
+                  value: pers
+              - column:
+                  name: role_id
+                  value: 1

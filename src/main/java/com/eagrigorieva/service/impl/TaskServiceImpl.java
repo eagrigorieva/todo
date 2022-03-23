@@ -1,30 +1,20 @@
-package com.eagrigorieva.service;
+package com.eagrigorieva.service.impl;
 
 import com.eagrigorieva.dto.TaskDto;
 import com.eagrigorieva.enumeration.PrintMod;
 import com.eagrigorieva.enumeration.TaskStatus;
 import com.eagrigorieva.exception.EntityNotFoundException;
-import com.eagrigorieva.io.TaskIo;
 import com.eagrigorieva.mapper.TaskMapper;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.model.User;
+import com.eagrigorieva.service.CustomTaskService;
 import com.eagrigorieva.storage.TaskRepository;
 import com.eagrigorieva.storage.UserRepository;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,15 +24,13 @@ import static com.eagrigorieva.enumeration.TaskStatus.CREATED;
 @Log4j2
 @Setter
 @Component
-public class TaskServiceImpl implements TaskService {
+public class TaskServiceImpl implements CustomTaskService {
     @Autowired
     private TaskRepository taskRepository;
     @Autowired
     private TaskMapper mapper;
     @Autowired
     private UserRepository userRepository;
-    @Value("${integration.url}")
-    private String integrationUrl;
 
     @Override
     public TaskDto create(String description, String userName) {
@@ -63,29 +51,24 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> getIoList(boolean isAll) {
-        return mapper.mapIoToListDto(getTaskIoList(isAll));
-    }
-
-    @Override
-    public void deleteTask(Long id, String userName) {
+    public void deleteTask(String id, String userName) {
         User fondedUsersInDB = userRepository.findByUsername(userName);
-        Task task = taskRepository.findByIdAndUser(id, fondedUsersInDB).orElse(null);
+        Task task = taskRepository.findByIdAndUser(Long.parseLong(id), fondedUsersInDB).orElse(null);
         if (task == null) {
             log.error("Task not found");
             System.out.println("Task not found");
             throw new EntityNotFoundException();
         }
-        taskRepository.deleteById(id);
+        taskRepository.deleteById(Long.parseLong(id));
         log.debug("Task is deleted");
         System.out.println("SUCCESS");
 
     }
 
     @Override
-    public TaskDto editTask(Long id, String description, String userName) {
+    public TaskDto editTask(String id, String description, String userName) {
         User fondedUsersInDB = userRepository.findByUsername(userName);
-        Task task = taskRepository.findByIdAndUser(id, fondedUsersInDB).orElse(null);
+        Task task = taskRepository.findByIdAndUser(Long.parseLong(id), fondedUsersInDB).orElse(null);
 
         if (task != null) {
             task.setDescription(description);
@@ -108,9 +91,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskDto toggleTask(Long id, String userName) {
+    public TaskDto toggleTask(String id, String userName) {
         User fondedUsersInDB = userRepository.findByUsername(userName);
-        Task task = taskRepository.findByIdAndUser(id, fondedUsersInDB).orElse(null);
+        Task task = taskRepository.findByIdAndUser(Long.parseLong(id), fondedUsersInDB).orElse(null);
 
         if (task != null) {
             task.setTaskStatus(task.getTaskStatus() == CREATED ? COMPLETED : CREATED);
@@ -147,13 +130,8 @@ public class TaskServiceImpl implements TaskService {
                 .collect(Collectors.toList());
     }
 
-    @SneakyThrows
-    private List<TaskIo> getTaskIoList(boolean isAll) {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpGet httpget = new HttpGet(integrationUrl + "/customer/tasks?isAll=" + isAll);
-        CloseableHttpResponse response = httpclient.execute(httpget);
-        String body = EntityUtils.toString(response.getEntity());
-        Type listType = new TypeToken<List<TaskIo>>(){}.getType();
-        return new Gson().fromJson(body, listType);
+    @Override
+    public boolean supports(String taskId){
+        return taskId == null || taskId.matches("\\d+");
     }
 }

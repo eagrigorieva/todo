@@ -6,7 +6,7 @@ import com.eagrigorieva.exception.EntityNotFoundException;
 import com.eagrigorieva.mapper.TaskMapper;
 import com.eagrigorieva.model.Task;
 import com.eagrigorieva.model.User;
-import com.eagrigorieva.service.TaskServiceImpl;
+import com.eagrigorieva.service.impl.TaskServiceImpl;
 import com.eagrigorieva.storage.TaskRepository;
 import com.eagrigorieva.storage.UserRepository;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -73,7 +73,7 @@ public class TodoTaskServiceTests {
         Mockito.when(userRepositoryMock.findByUsername(userName)).thenReturn(user);
         Mockito.when(taskRepositoryMock.findByIdAndUser(id, user)).thenReturn(java.util.Optional.ofNullable(task));
 
-        taskService.deleteTask(id, userName);
+        taskService.deleteTask(Long.toString(id), userName);
 
         Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
         Mockito.verify(taskRepositoryMock, Mockito.times(1)).findByIdAndUser(id, user);
@@ -87,7 +87,7 @@ public class TodoTaskServiceTests {
         Mockito.when(userRepositoryMock.findByUsername(userName)).thenReturn(user);
 
         try {
-            taskService.editTask(id, description, userName);
+            taskService.editTask(Long.toString(id), description, userName);
         } catch (EntityNotFoundException ex) {
             Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
             Mockito.verify(taskRepositoryMock, Mockito.times(1)).findByIdAndUser(id, user);
@@ -100,7 +100,7 @@ public class TodoTaskServiceTests {
         task = getTask(id, description, TaskStatus.CREATED, user);
 
         try {
-            taskService.editTask(id, description, userName);
+            taskService.editTask(Long.toString(id), description, userName);
         } catch (EntityNotFoundException ex) {
             Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
             Mockito.verify(taskRepositoryMock, Mockito.times(0)).findByIdAndUser(id, user);
@@ -115,7 +115,7 @@ public class TodoTaskServiceTests {
         Mockito.when(taskRepositoryMock.findByIdAndUser(id, user)).thenReturn(java.util.Optional.ofNullable(task));
         Mockito.when(taskRepositoryMock.save(task)).thenReturn(task);
 
-        taskService.editTask(id, description, userName);
+        taskService.editTask(Long.toString(id), description, userName);
 
         Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
         Mockito.verify(taskRepositoryMock, Mockito.times(1)).findByIdAndUser(id, user);
@@ -128,7 +128,7 @@ public class TodoTaskServiceTests {
         Mockito.when(userRepositoryMock.findByUsername(userName)).thenReturn(user);
 
         try {
-            taskService.editTask(id, description, userName);
+            taskService.editTask(Long.toString(id), description, userName);
         } catch (EntityNotFoundException ex) {
             Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
             Mockito.verify(taskRepositoryMock, Mockito.times(1)).findByIdAndUser(id, user);
@@ -141,7 +141,7 @@ public class TodoTaskServiceTests {
         task = getTask(id, description, TaskStatus.CREATED, user);
 
         try {
-            taskService.editTask(id, description, userName);
+            taskService.editTask(Long.toString(id), description, userName);
         } catch (EntityNotFoundException ex) {
             Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
             Mockito.verify(taskRepositoryMock, Mockito.times(0)).findByIdAndUser(id, user);
@@ -156,7 +156,7 @@ public class TodoTaskServiceTests {
         Mockito.when(taskRepositoryMock.findByIdAndUser(id, user)).thenReturn(java.util.Optional.ofNullable(task));
         Mockito.when(taskRepositoryMock.save(task)).thenReturn(task);
 
-        TaskDto result = taskService.toggleTask(id, userName);
+        TaskDto result = taskService.toggleTask(Long.toString(id), userName);
         assertEquals(description, result.getDescription());
         assertEquals(TaskStatus.COMPLETED, result.getTaskStatus());
 
@@ -171,7 +171,7 @@ public class TodoTaskServiceTests {
         Mockito.when(userRepositoryMock.findByUsername(userName)).thenReturn(user);
 
         try {
-            taskService.toggleTask(id, userName);
+            taskService.toggleTask(Long.toString(id), userName);
         } catch (EntityNotFoundException ex) {
             Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
             Mockito.verify(taskRepositoryMock, Mockito.times(1)).findByIdAndUser(id, user);
@@ -184,7 +184,7 @@ public class TodoTaskServiceTests {
         task = getTask(id, description, TaskStatus.CREATED, user);
 
         try {
-            taskService.toggleTask(id, userName);
+            taskService.toggleTask(Long.toString(id), userName);
         } catch (EntityNotFoundException ex) {
             Mockito.verify(userRepositoryMock, Mockito.times(1)).findByUsername(userName);
             Mockito.verify(taskRepositoryMock, Mockito.times(0)).findByIdAndUser(id, user);
