@@ -13,9 +13,12 @@ import com.eagrigorieva.storage.UserRepository;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import static com.eagrigorieva.enumeration.TaskStatus.COMPLETED;
@@ -45,9 +48,10 @@ public class TaskServiceImpl implements CustomTaskService {
         return mapper.mapToTaskDto(task);
     }
 
+    @Async
     @Override
-    public List<TaskDto> getList(String printMod, String userName) {
-        return mapper.mapToListDto(getTaskList(printMod, userName));
+    public Future<List<TaskDto>> getList(String printMod, String userName) {
+        return AsyncResult.forValue(mapper.mapToListDto(getTaskList(printMod, userName)));
     }
 
     @Override
@@ -85,9 +89,10 @@ public class TaskServiceImpl implements CustomTaskService {
 
     }
 
+    @Async
     @Override
-    public List<TaskDto> getAllTasks() {
-        return mapper.mapToListDto(taskRepository.findAll());
+    public Future<List<TaskDto>> getAllTasks() {
+        return AsyncResult.forValue(mapper.mapToListDto(taskRepository.findAll()));
     }
 
     @Override

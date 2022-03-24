@@ -6,14 +6,17 @@ import com.eagrigorieva.integration.IntegrationTaskClient;
 import com.eagrigorieva.mapper.IntegrationTaskMapper;
 import com.eagrigorieva.service.CustomTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 import static com.eagrigorieva.mapper.IntegrationTaskMapper.PREFIX;
 
 @Component
-public class IntegrationTaskService implements CustomTaskService {
+public class IntegrationTaskServiceImpl implements CustomTaskService {
 
     @Autowired
     private IntegrationTaskClient integrationTaskClient;
@@ -25,13 +28,14 @@ public class IntegrationTaskService implements CustomTaskService {
         throw new UnsupportedOperationException();
     }
 
+    @Async
     @Override
-    public List<TaskDto> getList(String printMod, String userName) {
+    public Future<List<TaskDto>> getList(String printMod, String userName) {
         PrintMod resolvedPrintMod = PrintMod.getPrintMod(printMod);
         if (resolvedPrintMod == PrintMod.CREATED){
-            return integrationTaskMapper.toTaskDto(integrationTaskClient.getTasks(false));
+            return AsyncResult.forValue(integrationTaskMapper.toTaskDto(integrationTaskClient.getTasks(false)));
         }
-        return integrationTaskMapper.toTaskDto(integrationTaskClient.getTasks(true));
+        return AsyncResult.forValue(integrationTaskMapper.toTaskDto(integrationTaskClient.getTasks(true)));
     }
 
     @Override
@@ -45,9 +49,10 @@ public class IntegrationTaskService implements CustomTaskService {
         return new TaskDto();
     }
 
+    @Async
     @Override
-    public List<TaskDto> getAllTasks() {
-        return integrationTaskMapper.toTaskDto(integrationTaskClient.getTasks(true));
+    public Future<List<TaskDto>> getAllTasks() {
+        return AsyncResult.forValue(integrationTaskMapper.toTaskDto(integrationTaskClient.getTasks(true)));
     }
 
     @Override

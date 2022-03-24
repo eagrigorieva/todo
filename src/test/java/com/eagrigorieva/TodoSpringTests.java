@@ -1,6 +1,10 @@
 package com.eagrigorieva;
 
+import com.eagrigorieva.service.CompositeTaskService;
+import com.eagrigorieva.service.CustomTaskService;
 import com.eagrigorieva.service.TaskService;
+import com.eagrigorieva.service.impl.CompositeTaskServiceImpl;
+import com.eagrigorieva.service.impl.IntegrationTaskServiceImpl;
 import com.eagrigorieva.service.impl.TaskServiceImpl;
 import com.eagrigorieva.service.UserService;
 import com.eagrigorieva.service.impl.UserServiceImpl;
@@ -19,7 +23,7 @@ public class TodoSpringTests {
     private UserService userService;
 
     @Autowired
-    private TaskService taskService;
+    private CompositeTaskService taskService;
 
     @Test
     public void contextLoads() {
@@ -32,6 +36,6 @@ public class TodoSpringTests {
 
     @Test
     public void checkTaskService() {
-        Assert.assertTrue(taskService instanceof TaskServiceImpl);
+        Assert.assertTrue(taskService instanceof CompositeTaskServiceImpl);
     }
 }
