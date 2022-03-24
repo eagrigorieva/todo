@@ -19,6 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static com.eagrigorieva.enumeration.PrintMod.COMPLETED;
 import static com.eagrigorieva.step.TodoSteps.getTask;
@@ -193,7 +194,7 @@ public class TodoTaskServiceTests {
     }
 
     @Test
-    public void successGetListTest() {
+    public void successGetListTest() throws ExecutionException, InterruptedException {
         List<Task> taskList = new ArrayList<>();
         taskList.add(getTask(0, description, TaskStatus.CREATED, user));
         taskList.add(getTask(1, description, TaskStatus.COMPLETED, user));
@@ -201,7 +202,7 @@ public class TodoTaskServiceTests {
         Mockito.when(taskRepositoryMock.findAllByUser(user)).thenReturn(taskList);
         Mockito.when(userRepositoryMock.findByUsername(userName)).thenReturn(user);
 
-        List<TaskDto> result = taskService.getList(COMPLETED.name(), userName);
+        List<TaskDto> result = taskService.getList(COMPLETED.name(), userName).get();
         int count = (int) result.stream().filter(f -> f.getTaskStatus().equals(TaskStatus.COMPLETED)).count();
 
         assertEquals(count, result.size());

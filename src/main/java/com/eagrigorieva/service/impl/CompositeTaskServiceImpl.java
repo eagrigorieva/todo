@@ -1,7 +1,6 @@
 package com.eagrigorieva.service.impl;
 
 import com.eagrigorieva.dto.TaskDto;
-import com.eagrigorieva.enumeration.PrintMod;
 import com.eagrigorieva.service.CompositeTaskService;
 import com.eagrigorieva.service.CustomTaskService;
 import com.eagrigorieva.service.TaskService;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @Log4j2
 @Component
@@ -26,12 +27,21 @@ public class CompositeTaskServiceImpl implements CompositeTaskService {
 
     @Override
     public List<TaskDto> getList(String printMod, String userName) {
-        List<TaskDto> taskDtoList = new ArrayList<>();
+        List<Future<List<TaskDto>>> futures = new ArrayList<>();
         for (CustomTaskService taskService : taskServices) {
             try {
-                taskDtoList.addAll(taskService.getList(printMod, userName));
+                futures.add(taskService.getList(printMod, userName));
             } catch (Exception e) {
                 log.error("Error for getting tasks", e);
+            }
+        }
+
+        List<TaskDto> taskDtoList = new ArrayList<>();
+        for (Future<List<TaskDto>> future : futures) {
+            try {
+                taskDtoList.addAll(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                log.error("Error for async getting tasks", e);
             }
         }
         return taskDtoList;
@@ -49,12 +59,21 @@ public class CompositeTaskServiceImpl implements CompositeTaskService {
 
     @Override
     public List<TaskDto> getAllTasks() {
-        List<TaskDto> taskDtoList = new ArrayList<>();
+        List<Future<List<TaskDto>>> futures = new ArrayList<>();
         for (CustomTaskService taskService : taskServices) {
             try {
-                taskDtoList.addAll(taskService.getAllTasks());
+                futures.add(taskService.getAllTasks());
             } catch (Exception e) {
                 log.error("Error for getting tasks", e);
+            }
+        }
+
+        List<TaskDto> taskDtoList = new ArrayList<>();
+        for (Future<List<TaskDto>> future : futures) {
+            try {
+                taskDtoList.addAll(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                log.error("Error for async getting tasks", e);
             }
         }
         return taskDtoList;
